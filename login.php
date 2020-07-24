@@ -56,7 +56,7 @@ session_start();
                             <input type="password" name="password" id="" class="form-control" placeholder="Password">
                         </label>
                         <button type="submit" class="logn-button btn btn-outline-dark btn-block mt-3 col-12 btn-sm" name="login">
-                            Log IN
+                            Login
                         </button>
                         <hr class="m-4">
                         <p class="text-primary col-12 text-center"> <a href="#">Forgot Password ?</a></p>

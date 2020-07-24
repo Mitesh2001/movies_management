@@ -85,7 +85,7 @@ session_start();
 
                 <div class="box border col-12 text-center pt-3">
 
-                    <p>Have an account ? <a href="login_page.php">Log In</a></p>
+                    <p>Have an account ? <a href="login.php">Log In</a></p>
 
                 </div>
 
@@ -107,7 +107,7 @@ integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0J
 crossorigin="anonymous"></script>
 <script>
 
-    function clearMessage() {clearMessage
+    function clearMessage() {
         var message = document.getElementById('Message');
         message.remove()
         <?php session_destroy() ?>

@@ -107,6 +107,7 @@ $allMovies = mysqli_query($con, "SELECT * FROM `posts` ");
                 <tr class="text-center">
                     <th>Poster</th>
                     <th>Movie Name</th>
+                    <th>Movie Description</th>
                     <th>Released Date</th>
                     <th>Download Links</th>
                     <th colspan="2">Actions</th>
@@ -120,6 +121,7 @@ $allMovies = mysqli_query($con, "SELECT * FROM `posts` ");
                             alt="" class="poster">
                         </td>
                         <td class="font-weight-bold"><?php echo $movie['movie_name'] ?></td>
+                        <td class=""><?php echo $movie['description'] ?></td>
                         <td><?php echo $movie['released_date'] ?></td>
                         <td>
                             <?php

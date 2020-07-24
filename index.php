@@ -28,10 +28,12 @@ $data = mysqli_query($con, "SELECT * FROM `posts` ");
             height: 50px;
         }
         .poster {
-            height:250px;
+            height:auto;
             width:auto;
-            border:1px solid black;
-            border-radius: 20%;
+            box-shadow: 10px 10px 5px #ccc;
+            -moz-box-shadow: 10px 10px 5px #ccc;
+            -webkit-box-shadow: 10px 10px 5px #ccc;
+            -khtml-box-shadow: 10px 10px 5px #ccc;
         }
         .shadow-text {
             color: red;
@@ -69,7 +71,7 @@ $data = mysqli_query($con, "SELECT * FROM `posts` ");
 </head>
 <body>
     <div class='container-fluid fixe-top'>
-        <nav class="navbar box-background navbar-expand-md navbar-light border border-secondary rounded-bottom" id="myHeader">
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark text-light border border-secondary rounded-bottom" id="myHeader">
             <div class="col-md-1"></div>
             <a href="#" class="navbar-brand">
                 <img src="images/backgrounds/main_logo.png" alt="It’s Just Movies" class="main-logo">
@@ -106,31 +108,28 @@ $data = mysqli_query($con, "SELECT * FROM `posts` ");
         <div class="justify-content-center row p-4">
             <?php
                 while ($selected_data = mysqli_fetch_array($data)) {
-                    if ($no%3 == 0) {
-                        echo '<div class="box-background box col-lg-6 col-md-4 text-center mt-4 mr-4 p-4 border border rounded">';
-                    } else {
-                        echo '<div class="box-background box col-lg-4 col-md-4 text-center mt-4 mr-4 p-4 border border rounded">';
-                    } ?>
-                <img src="<?php echo 'images/posts/'.$selected_data['movie_image'] ?>" class="poster">
-                <h5 class="m-2 btn btn-block btn-outline-dark">
-                    <?php echo $selected_data['movie_name'] ?>
-                </h5>
-                <a href="youtube.com" class="btn btn-link btn-block shadow-text">TRAILER</a>
-
-                <!-- <p class="">
-                    <?php
-                        $released_date = explode('-', $selected_data['released_date']);
+                    ?>
+                <div class="box-background box row col-lg-4 col-md-4 text-center mt-4 mr-4 p-4 border border rounded">
+                    <img src="<?php echo 'images/posts/'.$selected_data['movie_image'] ?>" class="poster col-6">
+                    <div class="col-6">
+                        <p class="small-text font-italic">
+                            <?php echo $selected_data['description'] ?>
+                        </p>
+                        <a href="youtube.com" class="btn btn-link btn-block shadow-text">TRAILER</a>
+                        <?php
+                            $released_date = explode('-', $selected_data['released_date']);
                     echo $released_date[2].' '.$months[$released_date[1]-1].' '.$released_date[0]; ?>
-                </p> ---->
-                <div class="col-12">
-                    <i class="far btn btn-primary text-light fa-thumbs-up mt-3 ml-3"></i>
-                    <i class="far btn btn-primary text-light fa-share-square mt-3 ml-3"></i>
-                    <!-- <i class="far fa-comment-alt mt-3 ml-3 btn btn-link"></i> -->
+                        <h5 class="m-2 btn btn-block btn-outline-dark">
+                            <?php echo $selected_data['movie_name'] ?>
+                        </h5>
+                        <div class="col-12">
+                            <i class="far btn btn-primary text-light fa-thumbs-up mt-3 ml-3"></i>
+                            <i class="far btn btn-primary text-light fa-share-square mt-3 ml-3"></i>
+                        </div>
+                    </div>
                 </div>
-            </div>
 
             <?php
-                $no ++;
                 }
             ?>
 

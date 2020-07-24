@@ -21,31 +21,25 @@ if (isset($_POST['signUp'])) {
 if (isset($_POST['login'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
-    if ($user = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM `users` WHERE username = '$username'"))) {
+
+    if ($username == "" || $password =="") {
+        $_SESSION['loginError'] = 'Enter both username and password';
+        header('location:login.php');
+    } elseif ($user = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM `users` WHERE username = '$username'"))) {
         if ($user['password'] != $password) {
             $_SESSION['loginError'] = 'Incorrect Password';
-            header('location:login_page.php');
+            header('location:login.php');
         } else {
             $_SESSION['user'] = $user;
             header('location:index.php');
         }
     } else {
         $_SESSION['loginError'] = 'No Record Found';
-        header('location:login_page.php');
+        header('location:login.php');
     }
 }
 
 if (isset($_GET['logout'])) {
     unset($_SESSION['user']);
-    header('location:login_page.php');
-}
-
-if (isset($_GET['clearsuccessMessage'])) {
-    unset($_SESSION['successMessage']);
-    header('location:signup_page.php');
-}
-
-if (isset($_GET['clearerrorMessage'])) {
-    unset($_SESSION['errorMessage']);
-    header('location:signup_page.php');
+    header('location:login.php');
 }
