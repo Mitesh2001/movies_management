@@ -1,0 +1,13 @@
+
+
+.form-control {
+    background-color:lightgray;
+    font-size:15px;
+}
+
+.box {
+    height:auto;
+    margin:40px;
+    padding: 5px;
+    background-color:white;
+}
