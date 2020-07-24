@@ -60,16 +60,16 @@ session_start();
 
                         <?php
                            if (isset($_SESSION['successMessage'])) {
-                               echo "<div class='alert alert-success text-center' id='successMessage'>
+                               echo "<div class='alert alert-success text-center' id='Message'>
                                         $_SESSION[successMessage]
-                                        <a href='action.php?clearsuccessMessage' class='float-right'>
-                                            <i class='fas fa-times text-success' id='success-times'</i>
+                                        <a href='#' onclick='clearMessage()' class='float-right'>
+                                            <i class='fas fa-times text-success' id='success-times'></i>
                                         </a>
                                     </div>";
                            } elseif (isset($_SESSION['errorMessage'])) {
-                               echo "<div class='alert alert-danger text-center' id='errorMessage'>
+                               echo "<div class='alert alert-danger text-center' id='Message'>
                                         $_SESSION[errorMessage]
-                                        <a href='action.php?clearerrorMessage' class='float-right'>
+                                        <a href='#' onclick='clearMessage()' class='float-right'>
                                             <i class='fas fa-times text-danger' id='danger-times'></i>
                                         </a>
                                     </div>";
@@ -105,12 +105,14 @@ crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
 integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
 crossorigin="anonymous"></script>
-
 <script>
-    function clearMessage(){
 
+    function clearMessage() {clearMessage
+        var message = document.getElementById('Message');
+        message.remove()
+        <?php session_destroy() ?>
     }
-</script>
 
+</script>
 </body>
 </html>
