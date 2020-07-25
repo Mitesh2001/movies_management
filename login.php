@@ -50,10 +50,10 @@ session_start();
 
                     <form action="action.php" method="post" class="">
                         <label class="col-12 mt-3">
-                            <input type="text" name="username" class="form-control" id="" placeholder="Username">
+                            <input type="text" name="username" class="form-control" id="" placeholder="Username" required>
                         </label>
                         <label class="col-12 mt-3">
-                            <input type="password" name="password" id="" class="form-control" placeholder="Password">
+                            <input type="password" name="password" id="" class="form-control" placeholder="Password" required>
                         </label>
                         <button type="submit" class="logn-button btn btn-outline-dark btn-block mt-3 col-12 btn-sm" name="login">
                             Login
@@ -73,6 +73,7 @@ session_start();
             </div>
 
         </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.13.1/alertify.min.js"></script>
 
     </div>
 

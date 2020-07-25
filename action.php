@@ -7,9 +7,12 @@ if (isset($_POST['signUp'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    $save_data = mysqli_query($con, "INSERT INTO `users`(`full_name`, `email`, `username`, `password`) VALUES ('$full_name','$email','$username','$password')");
-
-    if ($save_data) {
+    if ($email=="" || $full_name=="" || $username=="" || $password=="") {
+        $_SESSION['errorMessage'] = "All Fields require !";
+        header('location:signup.php');
+    } elseif ($save_data =
+                mysqli_query($con, "INSERT INTO `users`(`full_name`, `email`, `username`, `password`) VALUES ('$full_name','$email','$username','$password')")
+            ) {
         $_SESSION['successMessage'] = "Account created Successfully !!!";
         header('location:signup.php');
     } else {
