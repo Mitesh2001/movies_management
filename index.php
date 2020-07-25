@@ -1,4 +1,8 @@
 <?php
+session_start();
+if (!$_SESSION['user']) {
+    header('location:login.php');
+}
 include('connection_file.php');
 $no = 1;
 $months = [ 'January', 'February', 'March', 'April', 'May', 'June', 'July ', 'August', 'September', 'October', 'November', 'December', ];
@@ -51,7 +55,7 @@ $data = mysqli_query($con, "SELECT * FROM `posts` ");
             min-height: 70px;
             position: fixed;
             z-index:1;
-            overflow: hidden;
+            overflow:visible;
             top: 0;
             width: 100%;
         }
@@ -70,8 +74,8 @@ $data = mysqli_query($con, "SELECT * FROM `posts` ");
 
 </head>
 <body>
-    <div class='container-fluid fixe-top'>
-        <nav class="navbar navbar-expand-md navbar-dark bg-dark text-light border border-secondary rounded-bottom" id="myHeader">
+    <div class='container-fluid'>
+        <nav class="navbar navbar-expand-md navbar-light bg-light text-light border border-secondary rounded-bottom" id="myHeader">
             <div class="col-md-1"></div>
             <a href="#" class="navbar-brand">
                 <img src="images/backgrounds/main_logo.png" alt="It’s Just Movies" class="main-logo">
@@ -87,15 +91,21 @@ $data = mysqli_query($con, "SELECT * FROM `posts` ");
                     </button>
                 </form>
                 <div class="navbar-nav mx-3">
-                    <a href="#" class="nav-item nav-link mx-2">
-                        <i class="far fa-user"></i> Profile
-                    </a>
                     <a href="my_movies.php" class="nav-item nav-link mx-2">
                         <i class="fas fa-th-list"></i> Movies
                     </a>
-                    <button onclick="confirmLogout()" class="btn nav-item nav-link mx-2">
-                        Log Out  <i class="fas fa-sign-out-alt"></i>
-                    </button>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <?php echo $_SESSION['user']['full_name'] ?>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#">Profile</a>
+                            <button class="dropdown-item btn" onclick="confirmLogout()">
+                                    Log Out  <i class="fas fa-sign-out-alt"></i>
+                            </button>
+                        </div>
+                    </li>
                 </div>
             </div>
 
@@ -109,13 +119,15 @@ $data = mysqli_query($con, "SELECT * FROM `posts` ");
             <?php
                 while ($selected_data = mysqli_fetch_array($data)) {
                     ?>
-                <div class="box-background box row col-lg-4 col-md-4 text-center mt-4 mr-4 p-4 border border rounded">
+                <div class="box-background row col-md-4 text-center my-2 mx-2 p-4 border border rounded">
                     <img src="<?php echo 'images/posts/'.$selected_data['movie_image'] ?>" class="poster col-6">
+
                     <div class="col-6">
                         <p class="small-text font-italic">
                             <?php echo $selected_data['description'] ?>
                         </p>
-                        <a href="youtube.com" class="btn btn-link btn-block shadow-text">TRAILER</a>
+
+                        <a href="youtube.com" class="btn text-decoration-none text-primary btn-link btn-block shadow-text">TRAILER</a>
                         <?php
                             $released_date = explode('-', $selected_data['released_date']);
                     echo $released_date[2].' '.$months[$released_date[1]-1].' '.$released_date[0]; ?>

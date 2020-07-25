@@ -33,17 +33,12 @@ session_start();
 </head>
 
 <body class="login-body">
-
     <div class="container">
-
         <div class="row justify-content-center">
-
             <div class="col-md-5"></div>
 
             <div class="col-md-4 col-sm-12">
-
                 <div class="box col-12 row p-4">
-
                     <div>
                         <img src="images/backgrounds/main_logo.png" alt="" srcset="">
                     </div>
@@ -52,28 +47,30 @@ session_start();
                         <label class="col-12 mt-3">
                             <input type="text" name="username" class="form-control" id="" placeholder="Username" required>
                         </label>
+
                         <label class="col-12 mt-3">
                             <input type="password" name="password" id="" class="form-control" placeholder="Password" required>
                         </label>
+
                         <button type="submit" class="logn-button btn btn-outline-dark btn-block mt-3 col-12 btn-sm" name="login">
                             Login
                         </button>
+
                         <hr class="m-4">
+
                         <p class="text-primary col-12 text-center"> <a href="#">Forgot Password ?</a></p>
+
                     </form>
 
                 </div>
 
                 <div class="box col-12 text-center pt-3">
-
                     <p>Don't have an account ? <a href="signup.php">Sign Up</a></p>
-
                 </div>
 
             </div>
 
         </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.13.1/alertify.min.js"></script>
 
     </div>
 
