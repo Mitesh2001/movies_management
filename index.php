@@ -90,7 +90,7 @@ $data = mysqli_query($con, "SELECT * FROM `posts` ");
                     <a href="#" class="nav-item nav-link mx-2">
                         <i class="far fa-user"></i> Profile
                     </a>
-                    <a href="my_movies_page.php" class="nav-item nav-link mx-2">
+                    <a href="my_movies.php" class="nav-item nav-link mx-2">
                         <i class="fas fa-th-list"></i> Movies
                     </a>
                     <button onclick="confirmLogout()" class="btn nav-item nav-link mx-2">

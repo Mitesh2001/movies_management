@@ -11,10 +11,10 @@ if (isset($_POST['signUp'])) {
 
     if ($save_data) {
         $_SESSION['successMessage'] = "Account created Successfully !!!";
-        header('location:signup_page.php');
+        header('location:signup.php');
     } else {
         $_SESSION['errorMessage'] = "Can't create an Account !";
-        header('location:signup_page.php');
+        header('location:signup.php');
     }
 }
 

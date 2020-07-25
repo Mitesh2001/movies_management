@@ -66,7 +66,7 @@ session_start();
 
                 <div class="box col-12 text-center pt-3">
 
-                    <p>Don't have an account ? <a href="signup_page.php">Sign Up</a></p>
+                    <p>Don't have an account ? <a href="signup.php">Sign Up</a></p>
 
                 </div>
 
