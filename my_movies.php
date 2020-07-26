@@ -4,8 +4,18 @@ include('connection_file.php');
 $no = 1;
 $userid = $_SESSION['user']['user_id'];
 $months = [ 'January', 'February', 'March', 'April', 'May', 'June', 'July ', 'August', 'September', 'October', 'November', 'December', ];
-$userMovies = mysqli_query($con, "SELECT * FROM `posts` WHERE add_by = '$userid'");
-$allMovies = mysqli_query($con, "SELECT * FROM `posts` ");
+if (isset($_POST["searchResult"])) {
+    $search = $_POST['search-keyword'];
+    $userMovies  = mysqli_query(
+        $con,
+        "select * from posts where
+        movie_name like '%$search%' OR
+        description like '%$search%' OR
+        released_date like '%$search%'"
+    );
+} else {
+    $userMovies = mysqli_query($con, "SELECT * FROM `posts` WHERE add_by = '$userid'");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -74,14 +84,22 @@ $allMovies = mysqli_query($con, "SELECT * FROM `posts` ");
             <a href="index.php" class="nav-item nav-link btn btn-circle">Home</a>
             <div class="col-md-1"></div>
             <div class="collapse navbar-collapse" id="navbarCollapse">
-                <form action="" class="form-inline mx-3">
-                    <input type="text" class="form-control mr-sm-2" placeholder="Search">
-                    <button type="submit" class="btn btn-outline-light text-black-50 border">
+                <form action="my_movies.php" class="form-inline mx-3" method="POST">
+                    <input type="text" list="movies" class="form-control mr-sm-2" placeholder="Search Movie" name="search-keyword" id="search-movie" autocomplete="off">
+                    <datalist id="movies">
+                        <?php
+                            $selectuserMovies = mysqli_query($con, "SELECT * FROM `posts` WHERE add_by = '$userid'");
+                            while ($moviedata = mysqli_fetch_array($selectuserMovies)) {
+                                echo "<option value = '$moviedata[movie_name]'</option>";
+                            }
+                        ?>
+                    </datalist>
+                    <button type="submit" class="btn btn-outline-light text-black-50 border" name="searchResult">
                         <i class="fas fa-search"></i>
                     </button>
                 </form>
                 <div class="navbar-nav mx-3">
-                    <a href="#" class="nav-item nav-link mx-2 active">
+                    <a href="my_movies.php" class="nav-item nav-link mx-2 active">
                         <i class="fas fa-th-list"></i> Movies
                     </a>
                     <li class="nav-item dropdown">
@@ -193,6 +211,15 @@ $allMovies = mysqli_query($con, "SELECT * FROM `posts` ");
     <script src='js/select2.min.js' type='text/javascript'></script>
 
     <script>
+       function confirmLogout() {
+            alertify.confirm('Confirm', "Are You Sure to LogOut ?",
+                function() {
+                    window.location.href = "action.php?logout";
+                },
+                function() {}
+            );
+        }
+
         function showToAddMovies() {
             var division = document.getElementById("add-movie-box");
             if (division.style.display === "none") {

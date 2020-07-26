@@ -6,7 +6,18 @@ if (!$_SESSION['user']) {
 include('connection_file.php');
 $no = 1;
 $months = [ 'January', 'February', 'March', 'April', 'May', 'June', 'July ', 'August', 'September', 'October', 'November', 'December', ];
-$data = mysqli_query($con, "SELECT * FROM `posts` ");
+if (isset($_POST["searchResult"])) {
+    $search = $_POST['search-keyword'];
+    $data = mysqli_query(
+        $con,
+        "select * from posts where
+        movie_name like '%$search%' OR
+        description like '%$search%' OR
+        released_date like '%$search%'"
+    );
+} else {
+    $data = mysqli_query($con, "SELECT * FROM `posts` ");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -81,12 +92,20 @@ $data = mysqli_query($con, "SELECT * FROM `posts` ");
                 <img src="images/backgrounds/main_logo.png" alt="It’s Just Movies" class="main-logo">
             </a>
             <div class="col-md-1"></div>
-            <a href="#" class="nav-item nav-link active btn btn-circle">Home</a>
+            <a href="index.php" class="nav-item nav-link active btn btn-circle">Home</a>
             <div class="col-md-1"></div>
             <div class="collapse navbar-collapse" id="navbarCollapse">
-                <form action="" class="form-inline mx-3">
-                    <input type="text" class="form-control mr-sm-2" placeholder="Search">
-                    <button type="submit" class="btn btn-outline-light text-black-50 border">
+                <form action="index.php" class="form-inline mx-3" method="post">
+                    <input type="text" list="movies" autocomplete="off" class="form-control mr-sm-2" name="search-keyword" placeholder="Search Movie">
+                    <datalist id="movies">
+                        <?php
+                            $selectuserMovies = mysqli_query($con, "SELECT * FROM `posts`");
+                            while ($moviedata = mysqli_fetch_array($selectuserMovies)) {
+                                echo "<option value = '$moviedata[movie_name]'</option>";
+                            }
+                        ?>
+                    </datalist>
+                    <button type="submit" class="btn btn-outline-light text-black-50 border" name="searchResult">
                         <i class="fas fa-search"></i>
                     </button>
                 </form>
@@ -117,6 +136,9 @@ $data = mysqli_query($con, "SELECT * FROM `posts` ");
     <div class="container-fluid mt-5">
         <div class="justify-content-center row p-4">
             <?php
+                if (mysqli_num_rows($data) == 0) {
+                    echo '<p class= my-2 >No Movies Found As Your Keyword</p>';
+                }
                 while ($selected_data = mysqli_fetch_array($data)) {
                     ?>
                 <div class="box-background row col-md-4 text-center my-2 mx-2 p-4 border border rounded">
