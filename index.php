@@ -81,12 +81,16 @@ if (isset($_POST["searchResult"])) {
                 width: 100%;
            }
         }
+        body {
+            background-color: #f0ede9;
+            background-image: url('images/backgrounds/pattern34.png');
+        }
     </style>
 
 </head>
 <body>
     <div class='container-fluid'>
-        <nav class="navbar navbar-expand-md navbar-light bg-light text-light border border-secondary rounded-bottom" id="myHeader">
+        <nav class="navbar box-background navbar-expand-md navbar-light bg-light text-light border border-secondary rounded-bottom" id="myHeader">
             <div class="col-md-1"></div>
             <a href="#" class="navbar-brand">
                 <img src="images/backgrounds/main_logo.png" alt="It’s Just Movies" class="main-logo">
@@ -101,7 +105,7 @@ if (isset($_POST["searchResult"])) {
                         <?php
                             $selectuserMovies = mysqli_query($con, "SELECT * FROM `posts`");
                             while ($moviedata = mysqli_fetch_array($selectuserMovies)) {
-                                echo "<option value = '$moviedata[movie_name]'</option>";
+                                echo "<option value = '$moviedata[movie_name]'></option>";
                             }
                         ?>
                     </datalist>

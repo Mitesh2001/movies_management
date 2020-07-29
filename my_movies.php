@@ -56,9 +56,6 @@ if (isset($_POST["searchResult"])) {
             top: 0;
             width: 100%;
         }
-        #add-movie-box {
-            display: none;
-        }
         @media only screen and (max-width: 796px) {
            .navbar {
                 left: 0;
@@ -102,6 +99,9 @@ if (isset($_POST["searchResult"])) {
                     <a href="my_movies.php" class="nav-item nav-link mx-2 active">
                         <i class="fas fa-th-list"></i> Movies
                     </a>
+                    <a href="add_movie.php" class="nav-item nav-link mx-2">
+                        <i class="fas fa-plus"></i> New Post
+                    </a>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <?php echo $_SESSION['user']['full_name'] ?>
@@ -121,12 +121,7 @@ if (isset($_POST["searchResult"])) {
             </button>
         </nav>
     </div>
-    <div class="d-flex flex-row-reverse col-12 " style="margin-top: 90px">
-        <button class="btn btn-outline-primary" type="button" onclick="showToAddMovies()">
-            <i class="fas fa-plus"></i> Add Movies
-        </button>
-    </div>
-    <div class="container-fluid mt-3">
+    <div class="container-fluid mt-5 pt-5">
         <table class="table table-bordered table-striped">
             <thead class="thead-dark">
                 <tr class="text-center">
@@ -156,10 +151,17 @@ if (isset($_POST["searchResult"])) {
                             ?>
                         </td>
                         <td>
-                            <i class="far fa-trash-alt btn btn-primary p-3"></i>
+                            <button type="button"
+                            class="btn btn-danger p-3"
+                            onclick="confirmDelete(<?php echo $movie["post_id"]; ?>)"
+                            >
+                                <i class="far fa-trash-alt"></i>
+                            </button>
                         </td>
                         <td>
-                            <i class="fas fa-edit btn btn-danger p-3"></i>
+                            <button type="button" class="btn btn-primary p-3">
+                                <i class="fas fa-edit "></i>
+                            </button>
                         </td>
 
                     </tr>
@@ -167,35 +169,7 @@ if (isset($_POST["searchResult"])) {
             </tbody>
         </table>
     </div>
-    <div id="add-movie-box" class="border border-dark rounded col-lg-6 container p-4 my-4">
-        <h3 class="text-center">
-            Add Movie
-            <i class="fa fa-times float-right btn btn-danger" onclick="showToAddMovies()"></i>
-        </h3>
-        <form action="" method="post" class="col-12">
-            <label class="col-12 my-3">
-                Movie Name :
-                <input type="text" name="movie-name" id="movie-name" class="form-control">
-            </label>
-            <label class="col-12 my-3">
-                Released Date :
-                <input type="text" name="released_date" placeholder="yyyy-mm-dd" class="form-control">
-            </label>
-            <label class="col-12 my-3">
-                Download Links :
-                <input type="text" name="released_date" class="form-control">
-            </label>
-            <div class="col-12 my-3">
-                <input type="file" class="custom-file-input" id="#poster" name="poster" accept="image/*">
-                <label class="custom-file-label" for="poster">Poster</label>
-            </div>
-            <div class="col-12 text-center my-3">
-                <button type="submit" class="btn btn-outline-primary">
-                    Add Movie
-                </button>
-            </div>
-        </form>
-    </div>
+
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
     integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
@@ -220,15 +194,24 @@ if (isset($_POST["searchResult"])) {
             );
         }
 
-        function showToAddMovies() {
-            var division = document.getElementById("add-movie-box");
-            if (division.style.display === "none") {
-                division.style.display = "block";
-            } else {
-                division.style.display = "none";
-            }
-            document.getElementById("movie-name").focus()
+        function confirmDelete(id) {
+            alertify.confirm('Confirm', "Are You Sure to Delete this Movie ?",
+                function() {
+                    window.location.href = "action.php?DeleteMovieId="+id;
+                },
+                function() {}
+            );
         }
+
     </script>
+    <?php
+        if (isset($_SESSION["SuccessMessage"])) {
+            $message = $_SESSION["SuccessMessage"] ;
+            echo '<script type = "text/javascript">
+                        alertify.success("'.$message.'");
+                </script>';
+            unset($_SESSION["SuccessMessage"]);
+        }
+    ?>
 </body>
 </html>
