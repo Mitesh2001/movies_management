@@ -15,11 +15,24 @@ session_start();
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/design.css">
 
+    <style>
+        .signup-body {
+            background: url('images/backgrounds/login_page_bg.jpg');
+            background-size: cover;
+        }
+
+        @media only screen and (max-width: 768px) {
+            .signup-body {
+                background: none;
+            }
+        }
+    </style>
 </head>
 
 <body class="signup-body">
     <div class="container">
         <div class="row justify-content-center">
+            <div class="col-md-5"></div>
             <div class="col-md-4 col-sm-12">
                 <div class="box border col-12 row p-4">
                     <div>
@@ -67,7 +80,6 @@ session_start();
         </div>
     </div>
 
-
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
 integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
 crossorigin="anonymous"></script>
@@ -88,17 +100,6 @@ crossorigin="anonymous"></script>
         </script>';
         unset($_SESSION["errorMessage"]);
     }
-
-     if (isset($_SESSION["successMessage"])) {
-         $message = $_SESSION["successMessage"] ;
-         echo '<script type = "text/javascript">
-            alertify.set("notifier","position","top-center");
-            alertify.success("' . $message . '");
-        </script>';
-         unset($_SESSION["successMessage"]);
-     }
-
 ?>
-
 </body>
 </html>

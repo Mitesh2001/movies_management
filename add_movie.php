@@ -1,3 +1,9 @@
+<?php
+session_start();
+if (!$_SESSION['user']) {
+    header('location:index.php');
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,11 +15,22 @@
     crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css" rel="stylesheet">
     <title>Add TO Your Movie List</title>
+
+    <style>
+        body {
+            background-color: #f0ede9;
+            background-image: url('images/backgrounds/pattern34.png');
+        }
+        .box-background {
+            background: rgb(2,0,36);
+            background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(229,229,240,1) 0%);
+        }
+    </style>
 </head>
 <body>
-    <div id="add-movie-box" class="border border-dark rounded col-lg-6 container p-4 my-4">
+    <div id="add-movie-box" class="box-background border border-dark rounded col-lg-6 container p-4 my-4">
         <h3 class="text-center">
-            Add Movie
+            New Post
         </h3>
         <form action="" method="post" class="col-12">
             <label class="col-12 my-3">

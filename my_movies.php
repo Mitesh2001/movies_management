@@ -1,6 +1,9 @@
 <?php
 session_start();
 include('connection_file.php');
+if (!$_SESSION['user']) {
+    header('location:index.php');
+}
 $no = 1;
 $userid = $_SESSION['user']['user_id'];
 $months = [ 'January', 'February', 'March', 'April', 'May', 'June', 'July ', 'August', 'September', 'October', 'November', 'December', ];
@@ -108,8 +111,8 @@ if (isset($_POST["searchResult"])) {
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="#">Profile</a>
-                            <button class="dropdown-item btn" onclick="confirmLogout()">
-                                    Log Out  <i class="fas fa-sign-out-alt"></i>
+                            <button class="dropdown-item btn" onclick="logout()">
+                                <i class="fas fa-sign-out-alt"></i> Log Out
                             </button>
                         </div>
                     </li>
@@ -163,14 +166,11 @@ if (isset($_POST["searchResult"])) {
                                 <i class="fas fa-edit "></i>
                             </button>
                         </td>
-
                     </tr>
                 <?php } ?>
             </tbody>
         </table>
     </div>
-
-
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
     integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
     crossorigin="anonymous"></script>
@@ -185,13 +185,8 @@ if (isset($_POST["searchResult"])) {
     <script src='js/select2.min.js' type='text/javascript'></script>
 
     <script>
-       function confirmLogout() {
-            alertify.confirm('Confirm', "Are You Sure to LogOut ?",
-                function() {
-                    window.location.href = "action.php?logout";
-                },
-                function() {}
-            );
+       function logout() {
+             window.location.href = "action.php?logout";
         }
 
         function confirmDelete(id) {

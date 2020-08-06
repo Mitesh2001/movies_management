@@ -43,16 +43,12 @@ if (isset($_POST["searchResult"])) {
             height: 50px;
         }
         .poster {
-            height:auto;
-            width:auto;
-            box-shadow: 10px 10px 5px #ccc;
+            height: 250px;
+            /* width:auto; */
+            /* box-shadow: 10px 10px 5px #ccc;
             -moz-box-shadow: 10px 10px 5px #ccc;
             -webkit-box-shadow: 10px 10px 5px #ccc;
-            -khtml-box-shadow: 10px 10px 5px #ccc;
-        }
-        .shadow-text {
-            color: red;
-            text-shadow: 2px 2px 4px #000000;
+            -khtml-box-shadow: 10px 10px 5px #ccc; */
         }
         .box-background {
             background: rgb(2,0,36);
@@ -64,7 +60,7 @@ if (isset($_POST["searchResult"])) {
         .navbar {
             left: 0;
             min-height: 70px;
-            position: fixed;
+            position: relative;
             z-index:1;
             overflow:visible;
             top: 0;
@@ -124,53 +120,41 @@ if (isset($_POST["searchResult"])) {
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="#">Profile</a>
-                            <button class="dropdown-item btn" onclick="confirmLogout()">
-                                    Log Out  <i class="fas fa-sign-out-alt"></i>
+                            <button class="dropdown-item btn" onclick="logout()">
+                                     <i class="fas fa-sign-out-alt"></i> Log Out
                             </button>
                         </div>
                     </li>
                 </div>
             </div>
-
             <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>
             </button>
         </nav>
     </div>
-    <div class="container-fluid mt-5">
-        <div class="justify-content-center row p-4">
+    <div class="container-fluid">
+        <div class="justify-content-center row my-4">
             <?php
                 if (mysqli_num_rows($data) == 0) {
                     echo '<p class= my-2 >No Movies Found As Your Keyword</p>';
                 }
                 while ($selected_data = mysqli_fetch_array($data)) {
                     ?>
-                <div class="box-background row col-md-4 text-center my-2 mx-2 p-4 border border rounded">
-                    <img src="<?php echo 'images/posts/'.$selected_data['movie_image'] ?>" class="poster col-6">
-
-                    <div class="col-6">
-                        <p class="small-text font-italic">
-                            <?php echo $selected_data['description'] ?>
-                        </p>
-
-                        <a href="youtube.com" class="btn text-decoration-none text-primary btn-link btn-block shadow-text">TRAILER</a>
-                        <?php
-                            $released_date = explode('-', $selected_data['released_date']);
-                    echo $released_date[2].' '.$months[$released_date[1]-1].' '.$released_date[0]; ?>
-                        <h5 class="m-2 btn btn-block btn-outline-dark">
-                            <?php echo $selected_data['movie_name'] ?>
-                        </h5>
-                        <div class="col-12">
-                            <i class="far btn btn-primary text-light fa-thumbs-up mt-3 ml-3"></i>
-                            <i class="far btn btn-primary text-light fa-share-square mt-3 ml-3"></i>
-                        </div>
-                    </div>
+            <div class="col-lg-2 col-sm-4 col-xs-6 border mx-lg-3">
+                <img src="<?php echo 'images/posts/'.$selected_data['movie_image'] ?>" class="poster col-12">
+                <div class=" text-center col-12 box-background">
+                    <h5 class="btn btn-block btn-link">
+                        <?php echo $selected_data['movie_name'] ?>
+                    </h5>
                 </div>
-
+                <div class="text-center col-12">
+                    <span class="btn btn-danger btn-sm"><i class="fab fa-youtube"></i></span>
+                    <span class="btn btn-info btn-sm text-dark"><i class="far fa-heart" onclick="like(this)"></i></span>
+                </div>
+            </div>
             <?php
                 }
             ?>
-
         </div>
     </div>
     <div class="container-fluid text-center bg-dark text-light p-3 small-text">
@@ -195,15 +179,16 @@ if (isset($_POST["searchResult"])) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.13.1/alertify.min.js"></script>
 
     <script>
-        function confirmLogout() {
-            alertify.confirm('Confirm', "Are You Sure to LogOut ?",
-                function() {
-                    window.location.href = "action.php?logout";
-                },
-                function() {}
-            );
+        function logout() {
+           window.location.href = "action.php?logout";
         }
-
+        function like(element){
+            if (element.className == "far fa-heart") {
+                element.className = "fas fa-heart";
+            } else {
+                element.className = "far fa-heart";
+            }
+        }
     </script>
 
 </body>

@@ -94,6 +94,15 @@ session_start();
             </script>';
             unset($_SESSION["loginError"]);
         }
+        if (isset($_SESSION["successMessage"])) {
+            $message = $_SESSION["successMessage"] ;
+            echo '<script type = "text/javascript">
+            alertify.set("notifier","position","top-center");
+            alertify.success("' . $message . '");
+            </script>';
+            unset($_SESSION["successMessage"]);
+        }
+
     ?>
 
 </body>

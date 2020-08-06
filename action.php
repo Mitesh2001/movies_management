@@ -14,7 +14,7 @@ if (isset($_POST['signUp'])) {
                 mysqli_query($con, "INSERT INTO `users`(`full_name`, `email`, `username`, `password`) VALUES ('$full_name','$email','$username','$password')")
             ) {
         $_SESSION['successMessage'] = "Account created Successfully !!!";
-        header('location:signup.php');
+        header('location:index.php');
     } else {
         $_SESSION['errorMessage'] = "Can't create an Account !";
         header('location:signup.php');
