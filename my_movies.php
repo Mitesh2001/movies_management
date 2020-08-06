@@ -16,6 +16,10 @@ if (isset($_POST["searchResult"])) {
         description like '%$search%' OR
         released_date like '%$search%'"
     );
+    if (mysqli_num_rows($userMovies) < 1) {
+        $_SESSION['alertMessage'] = "No Movies Found !";
+        $userMovies = mysqli_query($con, "SELECT * FROM `posts` WHERE add_by = '$userid'");
+    }
 } else {
     $userMovies = mysqli_query($con, "SELECT * FROM `posts` WHERE add_by = '$userid'");
 }
@@ -206,6 +210,13 @@ if (isset($_POST["searchResult"])) {
                         alertify.success("'.$message.'");
                 </script>';
             unset($_SESSION["SuccessMessage"]);
+        }
+        if (isset($_SESSION['alertMessage'])) {
+            $message = $_SESSION['alertMessage'];
+            echo '<script type = "text/javascript">
+                        alertify.alert("'.$message.'");
+                </script>';
+            unset($_SESSION["alertMessage"]);
         }
     ?>
 </body>

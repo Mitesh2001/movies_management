@@ -15,6 +15,10 @@ if (isset($_POST["searchResult"])) {
         description like '%$search%' OR
         released_date like '%$search%'"
     );
+    if (mysqli_num_rows($data) < 1) {
+        $_SESSION['alertMessage'] = "No Movies Found !";
+        $data = mysqli_query($con, "SELECT * FROM `posts` ");
+    }
 } else {
     $data = mysqli_query($con, "SELECT * FROM `posts` ");
 }
@@ -44,11 +48,6 @@ if (isset($_POST["searchResult"])) {
         }
         .poster {
             height: 250px;
-            /* width:auto; */
-            /* box-shadow: 10px 10px 5px #ccc;
-            -moz-box-shadow: 10px 10px 5px #ccc;
-            -webkit-box-shadow: 10px 10px 5px #ccc;
-            -khtml-box-shadow: 10px 10px 5px #ccc; */
         }
         .box-background {
             background: rgb(2,0,36);
@@ -57,7 +56,7 @@ if (isset($_POST["searchResult"])) {
         .small-text{
             font-size: 12px;
         }
-        .navbar {
+        .navbar{
             left: 0;
             min-height: 70px;
             position: relative;
@@ -190,6 +189,15 @@ if (isset($_POST["searchResult"])) {
             }
         }
     </script>
+    <?php
+        if (isset($_SESSION['alertMessage'])) {
+            $message = $_SESSION['alertMessage'];
+            echo '<script type = "text/javascript">
+                    alertify.alert("'.$message.'");
+                    </script>';
+            unset($_SESSION["alertMessage"]);
+        }
+    ?>
 
 </body>
 </html>
