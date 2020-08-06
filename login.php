@@ -1,5 +1,23 @@
 <?php
 session_start();
+include('connection_file.php');
+if (isset($_REQUEST['login'])) {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    if ($username == "" || $password =="") {
+        $_SESSION['loginError'] = 'Enter both username and password';
+    } elseif ($user = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM `users` WHERE username = '$username'"))) {
+        if ($user['password'] != $password) {
+            $_SESSION['loginError'] = 'Incorrect Password';
+        } else {
+            $_SESSION['user'] = $user;
+        }
+    } else {
+        $_SESSION['loginError'] = 'No Record Found';
+    }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -43,7 +61,7 @@ session_start();
                         <img src="images/backgrounds/main_logo.png" alt="" srcset="">
                     </div>
 
-                    <form action="action.php" method="post" class="">
+                    <form action="login.php" method="post">
                         <label class="col-12 mt-3">
                             <input type="text" name="username" class="form-control" id="" placeholder="Username" required>
                         </label>
