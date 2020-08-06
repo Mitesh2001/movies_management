@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 21, 2020 at 09:39 PM
+-- Generation Time: Aug 06, 2020 at 06:38 PM
 -- Server version: 8.0.21
 -- PHP Version: 7.4.8
 
@@ -24,30 +24,43 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `likes`
+--
+
+CREATE TABLE `likes` (
+  `like_id` int NOT NULL,
+  `liked_post_id` int NOT NULL,
+  `liked_by` varchar(200) COLLATE utf8_unicode_ci NOT NULL COMMENT 'username',
+  `liked_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `posts`
 --
 
 CREATE TABLE `posts` (
   `post_id` int NOT NULL,
   `movie_name` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  `description` text COLLATE utf8_unicode_ci NOT NULL,
   `movie_image` varchar(200) COLLATE utf8_unicode_ci NOT NULL COMMENT 'movie_image(Poster)',
-  `released_date` varchar(200) COLLATE utf8_unicode_ci NOT NULL
+  `released_date` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  `add_by` int NOT NULL DEFAULT '2',
+  `download_links` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'link-1,link-2'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `posts`
 --
 
-INSERT INTO `posts` (`post_id`, `movie_name`, `movie_image`, `released_date`) VALUES
-(1, 'Avatar', '1.jpeg', '2009-12-18'),
-(2, 'Guardians of the Galaxy', '2.jpeg', '2014-08-08'),
-(3, 'Ant Man', '3.jpeg', '2015-07-14'),
-(4, 'Kabir singh', '4.jpeg', '2019-07-21'),
-(5, 'captain marvel', '5.jpeg', '2019-05-08'),
-(6, 'Black Widow', '6.jpeg', '2020-11-06\r\n'),
-(8, 'Avatar 2', '1.jpeg', '2009-12-18'),
-(9, 'Ant Man 2', '3.jpeg', '2015-07-14'),
-(10, 'captain marvel 2', '5.jpeg', '2019-05-08');
+INSERT INTO `posts` (`post_id`, `movie_name`, `description`, `movie_image`, `released_date`, `add_by`, `download_links`) VALUES
+(1, 'Avatar', 'Suspense thrillers, as the name suggest, kept the suspense till the very end. It is hard to really know who the good guy is, or the bad guy will be. ', '1.jpeg', '2009-12-18', 4, 'link-1,link-2'),
+(2, 'Guardians of the Galaxy', 'Suspense thrillers, as the name suggest, kept the suspense till the very end. It is hard to really know who the good guy is, or the bad guy will be. ', '2.jpeg', '2014-08-08', 27, 'link-1,link-2'),
+(3, 'Ant Man', 'Suspense thrillers, as the name suggest, kept the suspense till the very end. It is hard to really know who the good guy is, or the bad guy will be. ', '3.jpeg', '2015-07-14', 4, 'link-1,link-2'),
+(4, 'Kabir singh', 'Suspense thrillers, as the name suggest, kept the suspense till the very end. It is hard to really know who the good guy is, or the bad guy will be. ', '4.jpeg', '2019-07-21', 27, 'link-1,link-2'),
+(6, 'Black Widow', 'Suspense thrillers, as the name suggest, kept the suspense till the very end. It is hard to really know who the good guy is, or the bad guy will be. ', '6.jpeg', '2020-11-06\r\n', 27, 'link-1,link-2'),
+(9, 'Ant Man 2', 'Suspense thrillers, as the name suggest, kept the suspense till the very end. It is hard to really know who the good guy is, or the bad guy will be. ', '3.jpeg', '2015-07-14', 27, 'link-1,link-2');
 
 -- --------------------------------------------------------
 
@@ -68,8 +81,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `full_name`, `email`, `username`, `password`) VALUES
-(1, 'Mitesh Ladva', 'miteshladva.dgrs@gmail.com', 'mitesh_ladva', '12345'),
-(4, 'Mitesh Ladva', 'mitesh@freshbits.in', 'mitesh_ladva_2', '1234');
+(4, 'Mitesh Ladva', 'mitesh@freshbits.in', 'mitesh_ladva_2', '1234'),
+(27, 'Mitesh Ladva', 'miteshladva.dgrs@gmail.com', 'mitesh_ladva 3', '15963');
 
 --
 -- Indexes for dumped tables
@@ -103,7 +116,7 @@ ALTER TABLE `posts`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `user_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
