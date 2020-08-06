@@ -6,7 +6,7 @@ if (isset($_REQUEST['login'])) {
     $password = $_POST['password'];
 
     if ($username == "" || $password =="") {
-        $_SESSION['loginError'] = 'Enter both username and password';
+        $_SESSION['loginError'] = 'Enter username & password';
     } elseif ($user = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM `users` WHERE username = '$username'"))) {
         if ($user['password'] != $password) {
             $_SESSION['loginError'] = 'Incorrect Password';
@@ -14,7 +14,7 @@ if (isset($_REQUEST['login'])) {
             $_SESSION['user'] = $user;
         }
     } else {
-        $_SESSION['loginError'] = 'No Record Found';
+        $_SESSION['loginError'] = 'Username or Password Incorrect';
     }
 }
 

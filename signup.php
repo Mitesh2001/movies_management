@@ -1,5 +1,23 @@
 <?php
 session_start();
+include('connection_file.php');
+if (isset($_POST['signUp'])) {
+    $email = $_POST['email'];
+    $full_name = $_POST['full-name'];
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    if ($email=="" || $full_name=="" || $username=="" || $password=="") {
+        $_SESSION['errorMessage'] = "All Fields require !";
+    } elseif ($save_data =
+                mysqli_query($con, "INSERT INTO `users`(`full_name`, `email`, `username`, `password`) VALUES ('$full_name','$email','$username','$password')")
+            ) {
+        $_SESSION['successMessage'] = "Account created Successfully !!!";
+    } else {
+        $_SESSION['errorMessage'] = "Can't create an Account !";
+    }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -39,7 +57,7 @@ session_start();
                         <img src="images/backgrounds/main_logo.png" alt="" srcset="">
                     </div>
 
-                    <form action="action.php" method="post" class="">
+                    <form action="signup.php" method="post" class="">
                         <label class="col-12 mt-3">
                             <input type="email" name="email" class="form-control" id="" placeholder="Enter your Email" required>
                         </label>

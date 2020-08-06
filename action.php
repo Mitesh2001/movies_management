@@ -1,26 +1,6 @@
 <?php
 session_start();
 include('connection_file.php');
-if (isset($_POST['signUp'])) {
-    $email = $_POST['email'];
-    $full_name = $_POST['full-name'];
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-
-    if ($email=="" || $full_name=="" || $username=="" || $password=="") {
-        $_SESSION['errorMessage'] = "All Fields require !";
-        header('location:signup.php');
-    } elseif ($save_data =
-                mysqli_query($con, "INSERT INTO `users`(`full_name`, `email`, `username`, `password`) VALUES ('$full_name','$email','$username','$password')")
-            ) {
-        $_SESSION['successMessage'] = "Account created Successfully !!!";
-        header('location:index.php');
-    } else {
-        $_SESSION['errorMessage'] = "Can't create an Account !";
-        header('location:signup.php');
-    }
-}
-
 
 if (isset($_GET['logout'])) {
     unset($_SESSION['user']);
