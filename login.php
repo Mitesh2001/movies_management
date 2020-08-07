@@ -12,6 +12,7 @@ if (isset($_REQUEST['login'])) {
             $_SESSION['loginError'] = 'Incorrect Password';
         } else {
             $_SESSION['user'] = $user;
+            header('location:index.php');
         }
     } else {
         $_SESSION['loginError'] = 'Username or Password Incorrect';
@@ -32,7 +33,16 @@ if (isset($_REQUEST['login'])) {
     <title>Login</title>
 
     <style>
-
+        .box {
+            height:auto;
+            margin:40px;
+            padding: 5px;
+            background-color:white;
+        }
+        .form-control {
+            background-color:lightgray;
+            font-size:15px;
+        }
         .login-body {
             background:url('images/backgrounds/login_page_bg.jpg');
             background-size:cover;

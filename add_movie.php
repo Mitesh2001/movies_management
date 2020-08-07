@@ -39,7 +39,7 @@ if (!$_SESSION['user']) {
             </label>
             <label class="col-12 my-3">
                 Released Date :
-                <input type="text" name="released_date" placeholder="yyyy-mm-dd" class="form-control">
+                <input type="date" name="released_date" placeholder="yyyy-mm-dd" class="form-control">
             </label>
             <label class="col-12 my-3">
                 Download Links :

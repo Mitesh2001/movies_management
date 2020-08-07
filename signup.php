@@ -13,6 +13,7 @@ if (isset($_POST['signUp'])) {
                 mysqli_query($con, "INSERT INTO `users`(`full_name`, `email`, `username`, `password`) VALUES ('$full_name','$email','$username','$password')")
             ) {
         $_SESSION['successMessage'] = "Account created Successfully !!!";
+        header('location:login.php');
     } else {
         $_SESSION['errorMessage'] = "Can't create an Account !";
     }
@@ -38,7 +39,16 @@ if (isset($_POST['signUp'])) {
             background: url('images/backgrounds/login_page_bg.jpg');
             background-size: cover;
         }
-
+        .form-control {
+            background-color:lightgray;
+            font-size:15px;
+        }
+        .box {
+            height:auto;
+            margin:40px;
+            padding: 5px;
+            background-color:white;
+        }
         @media only screen and (max-width: 768px) {
             .signup-body {
                 background: none;
