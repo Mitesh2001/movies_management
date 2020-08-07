@@ -4,8 +4,6 @@ if (!$_SESSION['user']) {
     header('location:login.php');
 }
 include('connection_file.php');
-$no = 1;
-$months = [ 'January', 'February', 'March', 'April', 'May', 'June', 'July ', 'August', 'September', 'October', 'November', 'December', ];
 if (isset($_POST["searchResult"])) {
     $search = $_POST['search-keyword'];
     $data = mysqli_query(
@@ -21,6 +19,11 @@ if (isset($_POST["searchResult"])) {
     }
 } else {
     $data = mysqli_query($con, "SELECT * FROM `posts` ");
+}
+
+if (isset($_GET['logout'])) {
+    unset($_SESSION['user']);
+    header('location:login.php');
 }
 ?>
 <!DOCTYPE html>
@@ -140,7 +143,9 @@ if (isset($_POST["searchResult"])) {
                 while ($selected_data = mysqli_fetch_array($data)) {
                     ?>
             <div class="col-lg-2 col-sm-4 col-xs-6 border mx-lg-3">
-                <img src="<?php echo 'images/posts/'.$selected_data['movie_image'] ?>" class="poster col-12">
+                <img src="<?php echo 'images/posts/'.$selected_data['movie_image'] ?>"
+                    class="poster col-12"
+                >
                 <div class=" text-center col-12 box-background">
                     <h5 class="btn btn-block btn-link">
                         <?php echo $selected_data['movie_name'] ?>
@@ -179,7 +184,7 @@ if (isset($_POST["searchResult"])) {
 
     <script>
         function logout() {
-           window.location.href = "action.php?logout";
+           window.location.href = "?logout";
         }
         function like(element){
             if (element.className == "far fa-heart") {

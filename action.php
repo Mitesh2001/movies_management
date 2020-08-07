@@ -1,12 +1,6 @@
 <?php
 session_start();
 include('connection_file.php');
-
-if (isset($_GET['logout'])) {
-    unset($_SESSION['user']);
-    header('location:login.php');
-}
-
 if (isset($_GET['DeleteMovieId'])) {
     echo $post_id = $_GET['DeleteMovieId'];
     echo $poster = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM `posts` WHERE post_id = '$post_id'"))['movie_image'];

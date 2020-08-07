@@ -1,6 +1,12 @@
 <?php
 session_start();
 include('connection_file.php');
+if (isset($_SESSION['post_id'])) {
+    $post_id = $_SESSION['post_id'];
+    $selectedMovie = mysqli_fetch_array(
+        mysqli_query($con, "SELECT * FROM `posts` WHERE post_id = '$post_id'")
+    );
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -24,6 +30,10 @@ include('connection_file.php');
             background: rgb(2,0,36);
             background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(229,229,240,1) 0%);
         }
+        .movie-box {
+            border: 1px solid black;
+            margin: 10px;
+        }
         .navbar{
             left: 0;
             min-height: 70px;
@@ -32,6 +42,22 @@ include('connection_file.php');
             overflow:visible;
             top: 0;
             width: 100%;
+        }
+        .poster {
+            height:400px;
+        }
+        .small-text{
+            font-size: 12px;
+        }
+        .movie-title  {
+            font-family: 'Aclonica';
+            font-weight: 400;
+            font-size: 34px;
+        }
+        .description-font {
+            color: #555;
+            font-size: large;
+            font-family: times, serif;
         }
         @media only screen and (max-width: 796px) {
            .navbar {
@@ -100,6 +126,43 @@ include('connection_file.php');
                 <span class="navbar-toggler-icon"></span>
             </button>
         </nav>
+    </div>
+    <center>
+    <div class="movie-box bg-light col-8">
+        <div class="text-center">
+            <h1 class="movie-title my-3">
+                <?php echo $selectedMovie['movie_name'] ?> Full Movie
+            </h1>
+        </div>
+        <div class="row">
+            <img src="images/posts/<?php echo $selectedMovie['movie_image'] ?>" class="poster col-4 m-3">
+            <div class="col-7 text-left">
+                <p class="description-font mt-3"><?php echo $selectedMovie['description'] ?></p>
+                <p>Realesed on : <b><?php echo $selectedMovie['released_date'] ?></b></p>
+                <div class="dropdown">
+                    <button type="button"
+                        class="btn btn-block btn-success dropdown-toggle"
+                        data-toggle="dropdown"
+                    >
+                        Download <?php $selectedMovie['movie_name'] ?> Full Movie
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right bg-success">
+                        <a class="dropdown-item" href="#">Link 1</a>
+                        <a class="dropdown-item" href="#">Link 2</a>
+                        <a class="dropdown-item" href="#">Link 3</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </center>
+    <div class="container-fluid text-center bg-dark text-light p-3 small-text">
+        <p col-12>
+            ExtraMovies – Download And Watch Movies Online For Free © 2020 All Rights Reserved
+        </p>
+        <p col-12>
+            <Strong>Disclaimer - All My Post are Free Available On INTERNET Posted By Somebody Else<br>
+            I'm Not VIOLATING Any COPYRIGHTED LAW. If Anything Is Against LAW, Please Notify Us
+        </p>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"

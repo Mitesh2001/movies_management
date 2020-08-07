@@ -4,9 +4,7 @@ include('connection_file.php');
 if (!$_SESSION['user']) {
     header('location:index.php');
 }
-$no = 1;
 $userid = $_SESSION['user']['user_id'];
-$months = [ 'January', 'February', 'March', 'April', 'May', 'June', 'July ', 'August', 'September', 'October', 'November', 'December', ];
 if (isset($_POST["searchResult"])) {
     $search = $_POST['search-keyword'];
     $userMovies  = mysqli_query(
@@ -22,6 +20,10 @@ if (isset($_POST["searchResult"])) {
     }
 } else {
     $userMovies = mysqli_query($con, "SELECT * FROM `posts` WHERE add_by = '$userid'");
+}
+if (isset($_GET['logout'])) {
+    unset($_SESSION['user']);
+    header('location:login.php');
 }
 ?>
 <!DOCTYPE html>
@@ -190,7 +192,7 @@ if (isset($_POST["searchResult"])) {
 
     <script>
        function logout() {
-             window.location.href = "action.php?logout";
+             window.location.href = "?logout";
         }
 
         function confirmDelete(id) {
