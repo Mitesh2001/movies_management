@@ -1,12 +1,13 @@
 <?php
 session_start();
 include('connection_file.php');
-if (isset($_SESSION['post_id'])) {
-    $post_id = $_SESSION['post_id'];
+if (isset($_GET['post_id'])) {
+    $post_id = $_GET['post_id'];
     $selectedMovie = mysqli_fetch_array(
         mysqli_query($con, "SELECT * FROM `posts` WHERE post_id = '$post_id'")
     );
 }
+$selectLink = mysqli_query($con, "SELECT * FROM `download_links` WHERE link_for = '$post_id'")
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -87,7 +88,7 @@ if (isset($_SESSION['post_id'])) {
             <a href="index.php" class="nav-item nav-link btn btn-circle">Home</a>
             <div class="col-md-1"></div>
             <div class="collapse navbar-collapse" id="navbarCollapse">
-                <form action="my_movies.php" class="form-inline mx-3" method="POST">
+                <form action="index.php" class="form-inline mx-3" method="POST">
                     <input type="text" list="movies" class="form-control mr-sm-2" placeholder="Search Movie" name="search-keyword" id="search-movie" autocomplete="off">
                     <datalist id="movies">
                         <?php
@@ -128,18 +129,30 @@ if (isset($_SESSION['post_id'])) {
         </nav>
     </div>
     <center>
-    <div class="movie-box bg-light col-8">
+    <div class="movie-box bg-light col-md-8">
         <div class="text-center">
             <h1 class="movie-title my-3">
-                <?php echo $selectedMovie['movie_name'] ?> Full Movie
+                <?php echo ucwords($selectedMovie['movie_name']) ?> Full Movie
             </h1>
         </div>
         <div class="row">
             <img src="images/posts/<?php echo $selectedMovie['movie_image'] ?>" class="poster col-4 m-3">
             <div class="col-7 text-left">
                 <p class="description-font mt-3"><?php echo $selectedMovie['description'] ?></p>
+                <p>Director : <b><?php  $selectedMovie['category'] ?></b></p>
                 <p>Realesed on : <b><?php echo $selectedMovie['released_date'] ?></b></p>
-                <div class="dropdown">
+                <p>Category : <b><?php echo $selectedMovie['category'] ?></b></p>
+                <p>Available in Languages : <b><?php  $selectedMovie['category'] ?></b></p>
+                <div>
+                    <button type="button" class="btn btn-outline-danger float-left">
+                        <i class="fa fa-heart"></i> Like
+                    </button>
+                    <button type="button" class="btn btn-outline-info float-right">
+                        <i class="fa fa-share-alt" aria-hidden="true"></i> Share
+                    </button>
+                </div>
+                <br><br>
+                <div class="dropdown mt-5">
                     <button type="button"
                         class="btn btn-block btn-success dropdown-toggle"
                         data-toggle="dropdown"
@@ -147,9 +160,16 @@ if (isset($_SESSION['post_id'])) {
                         Download <?php $selectedMovie['movie_name'] ?> Full Movie
                     </button>
                     <div class="dropdown-menu dropdown-menu-right bg-success">
-                        <a class="dropdown-item" href="#">Link 1</a>
-                        <a class="dropdown-item" href="#">Link 2</a>
-                        <a class="dropdown-item" href="#">Link 3</a>
+                        <?php while ($link = mysqli_fetch_array($selectLink)) {
+                            echo '
+                                <a class="dropdown-item text-dark"
+                                href="'.$link['download_link'].'"
+                                target="_blank"
+                                >
+                                   <i class="fa fa-download"></i> '.ucwords($link['link_name']).'
+                                </a>
+                            ';
+                        } ?>
                     </div>
                 </div>
             </div>
@@ -157,7 +177,7 @@ if (isset($_SESSION['post_id'])) {
     </center>
     <div class="container-fluid text-center bg-dark text-light p-3 small-text">
         <p col-12>
-            ExtraMovies – Download And Watch Movies Online For Free © 2020 All Rights Reserved
+            Download And Watch Movies Online For Free © 2020 All Rights Reserved
         </p>
         <p col-12>
             <Strong>Disclaimer - All My Post are Free Available On INTERNET Posted By Somebody Else<br>

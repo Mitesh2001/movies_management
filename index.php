@@ -51,6 +51,7 @@ if (isset($_GET['logout'])) {
         }
         .poster {
             height: 250px;
+            cursor:pointer;
         }
         .box-background {
             background: rgb(2,0,36);
@@ -145,11 +146,14 @@ if (isset($_GET['logout'])) {
             <div class="col-lg-2 col-sm-4 col-xs-6 border mx-lg-3">
                 <img src="<?php echo 'images/posts/'.$selected_data['movie_image'] ?>"
                     class="poster col-12"
+                    onclick="goToMoviePage(<?php echo $selected_data['post_id'] ?>)"
                 >
                 <div class=" text-center col-12 box-background">
-                    <h5 class="btn btn-block btn-link">
+                    <button class="btn btn-block btn-link"
+                        onclick="goToMoviePage(<?php echo $selected_data['post_id'] ?>)"
+                    >
                         <?php echo $selected_data['movie_name'] ?>
-                    </h5>
+                    </button>
                 </div>
                 <div class="text-center col-12">
                     <span class="btn btn-danger btn-sm"><i class="fab fa-youtube"></i></span>
@@ -163,7 +167,7 @@ if (isset($_GET['logout'])) {
     </div>
     <div class="container-fluid text-center bg-dark text-light p-3 small-text">
         <p col-12>
-            ExtraMovies – Download And Watch Movies Online For Free © 2020 All Rights Reserved
+            Download And Watch Movies Online For Free © 2020 All Rights Reserved
         </p>
         <p col-12>
             <Strong>Disclaimer - All My Post are Free Available On INTERNET Posted By Somebody Else<br>
@@ -185,6 +189,9 @@ if (isset($_GET['logout'])) {
     <script>
         function logout() {
            window.location.href = "?logout";
+        }
+        function goToMoviePage(id){
+            window.location.href = "movie.php?post_id="+id;
         }
         function like(element){
             if (element.className == "far fa-heart") {

@@ -5,6 +5,7 @@ if (!$_SESSION['user']) {
     header('location:index.php');
 }
 $userid = $_SESSION['user']['user_id'];
+$username = $_SESSION['user']['username'];
 if (isset($_POST["searchResult"])) {
     $search = $_POST['search-keyword'];
     $userMovies  = mysqli_query(
@@ -154,8 +155,17 @@ if (isset($_GET['logout'])) {
                         <td><?php echo $movie['released_date'] ?></td>
                         <td>
                             <?php
-                                foreach (explode(",", $movie['download_links']) as $link) {
-                                    echo '<p><a href="#">'.$link.'</a></p>';
+                                $selectLinks = mysqli_query($con, "SELECT * FROM `download_links` WHERE add_by = '$username'");
+                                while ($userLinks = mysqli_fetch_array($selectLinks)) {
+                                    $download_link = $userLinks['download_link'];
+                                    $link_name = $userLinks['link_name'];
+                                    echo '<a class = "btn btn-link"
+                                            target = "_blank"
+                                            href = "'.$download_link.'"
+                                            >'
+                                        .$link_name.
+                                    '</a>';
+                                    echo '<br>';
                                 }
                             ?>
                         </td>

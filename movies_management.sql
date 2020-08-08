@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 06, 2020 at 06:38 PM
+-- Generation Time: Aug 08, 2020 at 07:59 PM
 -- Server version: 8.0.21
 -- PHP Version: 7.4.8
 
@@ -24,13 +24,37 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `download_links`
+--
+
+CREATE TABLE `download_links` (
+  `link_id` int NOT NULL,
+  `link_for` varchar(200) COLLATE utf8_unicode_ci NOT NULL COMMENT 'movie or post id',
+  `add_by` varchar(200) COLLATE utf8_unicode_ci NOT NULL COMMENT 'username',
+  `download_link` text COLLATE utf8_unicode_ci NOT NULL,
+  `link_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `download_links`
+--
+
+INSERT INTO `download_links` (`link_id`, `link_for`, `add_by`, `download_link`, `link_name`) VALUES
+(1, '1', 'mitesh_ladva_2', 'https://drive.google.com/file/d/1Kf7ertv77jMF6tWENk5THu_82KR7yrJq/view?usp=sharing', 'google drive'),
+(2, '2', 'mitesh_ladva_2', 'https://drive.google.com/file/d/1Kf7ertv77jMF6tWENk5THu_82KR7yrJq/view?usp=sharing', 'google drive'),
+(3, '1', 'mitesh_ladva_2', 'https://drive.google.com/file/d/1Kf7ertv77jMF6tWENk5THu_82KR7yrJq/view?usp=sharing', 'google drive'),
+(4, '2', 'mitesh_ladva_2', 'https://drive.google.com/file/d/1Kf7ertv77jMF6tWENk5THu_82KR7yrJq/view?usp=sharing', 'google drive');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `likes`
 --
 
 CREATE TABLE `likes` (
   `like_id` int NOT NULL,
   `liked_post_id` int NOT NULL,
-  `liked_by` varchar(200) COLLATE utf8_unicode_ci NOT NULL COMMENT 'username',
+  `liked_by` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT 'username',
   `liked_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -42,25 +66,25 @@ CREATE TABLE `likes` (
 
 CREATE TABLE `posts` (
   `post_id` int NOT NULL,
-  `movie_name` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
-  `description` text COLLATE utf8_unicode_ci NOT NULL,
-  `movie_image` varchar(200) COLLATE utf8_unicode_ci NOT NULL COMMENT 'movie_image(Poster)',
-  `released_date` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
-  `add_by` int NOT NULL DEFAULT '2',
-  `download_links` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'link-1,link-2'
+  `movie_name` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `description` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `movie_image` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT 'movie_image(Poster)',
+  `released_date` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `add_by` int NOT NULL DEFAULT '2' COMMENT 'userid',
+  `category` varchar(255) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `posts`
 --
 
-INSERT INTO `posts` (`post_id`, `movie_name`, `description`, `movie_image`, `released_date`, `add_by`, `download_links`) VALUES
-(1, 'Avatar', 'Suspense thrillers, as the name suggest, kept the suspense till the very end. It is hard to really know who the good guy is, or the bad guy will be. ', '1.jpeg', '2009-12-18', 4, 'link-1,link-2'),
-(2, 'Guardians of the Galaxy', 'Suspense thrillers, as the name suggest, kept the suspense till the very end. It is hard to really know who the good guy is, or the bad guy will be. ', '2.jpeg', '2014-08-08', 27, 'link-1,link-2'),
-(3, 'Ant Man', 'Suspense thrillers, as the name suggest, kept the suspense till the very end. It is hard to really know who the good guy is, or the bad guy will be. ', '3.jpeg', '2015-07-14', 4, 'link-1,link-2'),
-(4, 'Kabir singh', 'Suspense thrillers, as the name suggest, kept the suspense till the very end. It is hard to really know who the good guy is, or the bad guy will be. ', '4.jpeg', '2019-07-21', 27, 'link-1,link-2'),
-(6, 'Black Widow', 'Suspense thrillers, as the name suggest, kept the suspense till the very end. It is hard to really know who the good guy is, or the bad guy will be. ', '6.jpeg', '2020-11-06\r\n', 27, 'link-1,link-2'),
-(9, 'Ant Man 2', 'Suspense thrillers, as the name suggest, kept the suspense till the very end. It is hard to really know who the good guy is, or the bad guy will be. ', '3.jpeg', '2015-07-14', 27, 'link-1,link-2');
+INSERT INTO `posts` (`post_id`, `movie_name`, `description`, `movie_image`, `released_date`, `add_by`, `category`) VALUES
+(1, 'Avatar', 'Suspense thrillers, as the name suggest, kept the suspense till the very end. It is hard to really know who the good guy is, or the bad guy will be. ', '1.jpeg', '2009-12-18', 4, 'Bollywood, Drama, Action'),
+(2, 'Guardians of the Galaxy', 'Suspense thrillers, as the name suggest, kept the suspense till the very end. It is hard to really know who the good guy is, or the bad guy will be. ', '2.jpeg', '2014-08-08', 27, 'Bollywood, Drama, Action'),
+(3, 'Ant Man', 'Suspense thrillers, as the name suggest, kept the suspense till the very end. It is hard to really know who the good guy is, or the bad guy will be. ', '3.jpeg', '2015-07-14', 4, 'Bollywood, Drama, Action'),
+(4, 'Kabir singh', 'Suspense thrillers, as the name suggest, kept the suspense till the very end. It is hard to really know who the good guy is, or the bad guy will be. ', '4.jpeg', '2019-07-21', 27, 'Bollywood, Drama, Action'),
+(6, 'Black Widow', 'Suspense thrillers, as the name suggest, kept the suspense till the very end. It is hard to really know who the good guy is, or the bad guy will be. ', '6.jpeg', '2020-11-06\r\n', 27, 'Bollywood, Drama, Action'),
+(9, 'Ant Man 2', 'Suspense thrillers, as the name suggest, kept the suspense till the very end. It is hard to really know who the good guy is, or the bad guy will be. ', '3.jpeg', '2015-07-14', 27, 'Bollywood, Drama, Action');
 
 -- --------------------------------------------------------
 
@@ -70,10 +94,10 @@ INSERT INTO `posts` (`post_id`, `movie_name`, `description`, `movie_image`, `rel
 
 CREATE TABLE `users` (
   `user_id` int NOT NULL,
-  `full_name` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
-  `email` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
-  `username` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
-  `password` varchar(200) COLLATE utf8_unicode_ci NOT NULL
+  `full_name` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `email` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `username` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `password` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -87,6 +111,12 @@ INSERT INTO `users` (`user_id`, `full_name`, `email`, `username`, `password`) VA
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `download_links`
+--
+ALTER TABLE `download_links`
+  ADD UNIQUE KEY `link_id` (`link_id`);
 
 --
 -- Indexes for table `posts`
@@ -105,6 +135,12 @@ ALTER TABLE `users`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `download_links`
+--
+ALTER TABLE `download_links`
+  MODIFY `link_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `posts`

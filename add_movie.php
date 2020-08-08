@@ -50,7 +50,7 @@ if (!$_SESSION['user']) {
                 <label class="custom-file-label" for="poster">Poster</label>
             </div>
             <div class="col-12 text-center my-3">
-                <button type="button" class="btn btn-danger mt-3" onclick="window.location = 'my_movies.php'">
+                <button type="button" class="btn btn-danger mt-3" onclick="window.history.back();">
                     <i class="fas fa-arrow-left"></i> Cancel
                 </button>
                 <button type="submit" class="btn btn-primary mt-3">
