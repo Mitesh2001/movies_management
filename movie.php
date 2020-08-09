@@ -6,6 +6,8 @@ if (isset($_GET['post_id'])) {
     $selectedMovie = mysqli_fetch_array(
         mysqli_query($con, "SELECT * FROM `posts` WHERE post_id = '$post_id'")
     );
+} else {
+    header('location:index.php');
 }
 $selectLink = mysqli_query($con, "SELECT * FROM `download_links` WHERE link_for = '$post_id'")
 ?>
@@ -130,8 +132,8 @@ $selectLink = mysqli_query($con, "SELECT * FROM `download_links` WHERE link_for 
     </div>
     <center>
     <div class="movie-box bg-light col-md-8">
-        <div class="text-center">
-            <h1 class="movie-title my-3">
+        <div>
+            <h1 class="movie-title my-3 text-center">
                 <?php echo ucwords($selectedMovie['movie_name']) ?> Full Movie
             </h1>
         </div>
@@ -142,7 +144,7 @@ $selectLink = mysqli_query($con, "SELECT * FROM `download_links` WHERE link_for 
                 <p>Director : <b><?php  $selectedMovie['category'] ?></b></p>
                 <p>Realesed on : <b><?php echo $selectedMovie['released_date'] ?></b></p>
                 <p>Category : <b><?php echo $selectedMovie['category'] ?></b></p>
-                <p>Available in Languages : <b><?php  $selectedMovie['category'] ?></b></p>
+
                 <div>
                     <button type="button" class="btn btn-outline-danger float-left">
                         <i class="fa fa-heart"></i> Like
@@ -154,22 +156,46 @@ $selectLink = mysqli_query($con, "SELECT * FROM `download_links` WHERE link_for 
                 <br><br>
                 <div class="dropdown mt-5">
                     <button type="button"
-                        class="btn btn-block btn-success dropdown-toggle"
+                        class="btn btn-block dropdown-toggle"
                         data-toggle="dropdown"
                     >
                         Download <?php $selectedMovie['movie_name'] ?> Full Movie
                     </button>
+                    <div class="row my-4">
+                        <button type="button"
+                            class="btn btn-danger col-4"
+                            onclick="window.history.back()"
+                        >
+                            <i class="fa fa-arrow-left" aria-hidden="true"></i> Go Back
+                        </button>
+                        <div class="col-4"></div>
+                        <button type="button" class="btn btn-danger col-4">
+                            <i class="fab fa-youtube" aria-hidden="true"></i> Watch Trailer
+                        </button>
+                    </div>
                     <div class="dropdown-menu dropdown-menu-right bg-success">
-                        <?php while ($link = mysqli_fetch_array($selectLink)) {
-                            echo '
-                                <a class="dropdown-item text-dark"
-                                href="'.$link['download_link'].'"
-                                target="_blank"
-                                >
-                                   <i class="fa fa-download"></i> '.ucwords($link['link_name']).'
-                                </a>
-                            ';
-                        } ?>
+                        <?php
+                            if (mysqli_num_rows($selectLink) < 1) {
+                                echo '
+                                    <div class="dropdown-item text-dark"
+                                    href="#"
+                                    >
+                                    No Download links found !!
+                                    </div>
+                                ';
+                            } else {
+                                while ($link = mysqli_fetch_array($selectLink)) {
+                                    echo '
+                                    <a class="dropdown-item text-dark"
+                                    href="'.$link['download_link'].'"
+                                    target="_blank"
+                                    >
+                                    <i class="fa fa-download"></i> '.ucwords($link['link_name']).'
+                                    </a>
+                                ';
+                                }
+                            }
+                        ?>
                     </div>
                 </div>
             </div>

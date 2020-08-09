@@ -143,22 +143,22 @@ if (isset($_GET['logout'])) {
                 }
                 while ($selected_data = mysqli_fetch_array($data)) {
                     ?>
-            <div class="col-lg-2 col-sm-4 col-xs-6 border mx-lg-3">
+            <div class="col-lg-2 col-sm-4 col-xs-6 mx-lg-3">
                 <img src="<?php echo 'images/posts/'.$selected_data['movie_image'] ?>"
                     class="poster col-12"
                     onclick="goToMoviePage(<?php echo $selected_data['post_id'] ?>)"
                 >
-                <div class=" text-center col-12 box-background">
-                    <button class="btn btn-block btn-link"
+                <div class=" text-center col-12">
+                    <button class="btn btn-secondary my-2 btn-block"
                         onclick="goToMoviePage(<?php echo $selected_data['post_id'] ?>)"
                     >
                         <?php echo $selected_data['movie_name'] ?>
                     </button>
                 </div>
-                <div class="text-center col-12">
+                <!-- <div class="text-center col-12 border">
                     <span class="btn btn-danger btn-sm"><i class="fab fa-youtube"></i></span>
                     <span class="btn btn-info btn-sm text-dark"><i class="far fa-heart" onclick="like(this)"></i></span>
-                </div>
+                </div> -->
             </div>
             <?php
                 }
