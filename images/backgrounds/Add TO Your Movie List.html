@@ -1,20 +1,11 @@
-<?php
-session_start();
-function addMovieName()
-{
-    if (isset($_GET['add'])) {
-        echo $_GET['add'];
-    }
-}
-if (!$_SESSION['user']) {
-    header('location:index.php');
-}
-?>
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <?php include('header.php'); ?>
-    <title>Add TO Your Movie List</title>
+<!-- saved from url=(0044)http://movies_management.local/add_movie.php -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="./Add TO Your Movie List_files/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+<link rel="stylesheet" href="./Add TO Your Movie List_files/alertify.min.css">
+<link href="./Add TO Your Movie List_files/all.min.css" rel="stylesheet">    <title>Add TO Your Movie List</title>
     <style>
         body {
             background-color: #f0ede9;
@@ -31,15 +22,10 @@ if (!$_SESSION['user']) {
         <h3 class="text-center">
             New Post
         </h3>
-        <form action="action.php" method="post" class="col-12" enctype="multipart/form-data">
+        <form action="http://movies_management.local/action.php" method="post" class="col-12">
             <label class="col-12 my-3">
                 Movie Name :
-                <input type="text"
-                    name="movie-name"
-                    id="movie-name"
-                    class="form-control"
-                    value="<?php  addMovieName()
-                ?>">
+                <input type="text" name="movie-name" id="movie-name" class="form-control">
             </label>
             <label class="col-12 my-3">
                 Released Date :
@@ -49,12 +35,16 @@ if (!$_SESSION['user']) {
                 About this Movie :
                 <textarea name="description" class="form-control"></textarea>
             </label>
+            <label class="col-12 my-3">
+                Download Link :
+                <input type="text" name="download-link" class="form-control">
+            </label>
             <div class="col-12 my-3">
-                <input type="file" class="custom-file-input" id="#poster" name="poster_image" accept="image/*">
+                <input type="file" class="custom-file-input" id="#poster" name="poster" accept="image/*">
                 <label class="custom-file-label" for="poster">Poster</label>
             </div>
             <div class="col-12 text-center my-3">
-                <button type="button" class="btn btn-danger mt-3" onclick="window.location = 'my_movies.php';">
+                <button type="button" class="btn btn-danger mt-3" onclick="window.location = &#39;my_movies.php&#39;;">
                     <i class="fas fa-arrow-left"></i> Cancel
                 </button>
                 <button type="submit" class="btn btn-primary mt-3" name="add_movie">
@@ -63,5 +53,5 @@ if (!$_SESSION['user']) {
             </div>
         </form>
     </div>
-</body>
-</html>
+
+</body></html>

@@ -145,7 +145,8 @@ if (isset($_GET['logout'])) {
                         <td><?php echo $movie['released_date'] ?></td>
                         <td>
                             <?php
-                                $selectLinks = mysqli_query($con, "SELECT * FROM `download_links` WHERE add_by = '$username'");
+                                $post_id = $movie["post_id"];
+                                $selectLinks = mysqli_query($con, "SELECT * FROM `download_links` WHERE add_by = '$username' AND link_for = '$post_id'");
                                 while ($userLinks = mysqli_fetch_array($selectLinks)) {
                                     $download_link = $userLinks['download_link'];
                                     $link_name = $userLinks['link_name'];

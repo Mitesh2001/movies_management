@@ -14,7 +14,7 @@ if (isset($_POST["searchResult"])) {
         released_date like '%$search%'"
     );
     if (mysqli_num_rows($data) < 1) {
-        $_SESSION['alertMessage'] = "No Movies Found !";
+        $_SESSION['alertMessage'] = "No movies found for this keyword !";
         $data = mysqli_query($con, "SELECT * FROM `posts` ");
     }
 } else {
@@ -166,8 +166,7 @@ if (isset($_GET['logout'])) {
         </p>
     </div>
 
-        <?php include('footer.php') ?>
-
+    <?php include('footer.php') ?>
 
     <script>
         function logout() {
@@ -186,10 +185,16 @@ if (isset($_GET['logout'])) {
     </script>
     <?php
         if (isset($_SESSION['alertMessage'])) {
-            $message = $_SESSION['alertMessage'];
-            echo '<script type = "text/javascript">
-                    alertify.alert("'.$message.'");
-                    </script>';
+            $message = $_SESSION['alertMessage']; ?>
+        <script>
+            alertify.confirm("Error","<?php echo $message ?>",function () {
+                window.location = 'add_movie.php?add=<?php echo $search ?>';
+                },
+                function () {
+                }
+            ).set('labels', {ok:'&#10010 Add This Movie to my Movie List', cancel:'&#10008; Cancel'});
+        </script>
+        <?php
             unset($_SESSION["alertMessage"]);
         }
     ?>
