@@ -140,16 +140,12 @@ if (isset($_GET['logout'])) {
                     onclick="goToMoviePage(<?php echo $selected_data['post_id'] ?>)"
                 >
                 <div class=" text-center col-12">
-                    <button class="btn btn-secondary my-2 btn-block"
+                    <button class="btn btn-secondary my-2 btn-block rounded"
                         onclick="goToMoviePage(<?php echo $selected_data['post_id'] ?>)"
                     >
                         <?php echo $selected_data['movie_name'] ?>
                     </button>
                 </div>
-                <!-- <div class="text-center col-12 border">
-                    <span class="btn btn-danger btn-sm"><i class="fab fa-youtube"></i></span>
-                    <span class="btn btn-info btn-sm text-dark"><i class="far fa-heart" onclick="like(this)"></i></span>
-                </div> -->
             </div>
             <?php
                 }

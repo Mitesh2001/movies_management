@@ -149,16 +149,22 @@ if (isset($_GET['logout'])) {
                                 $selectLinks = mysqli_query($con, "SELECT * FROM `download_links` WHERE add_by = '$username' AND link_for = '$post_id'");
                                 while ($userLinks = mysqli_fetch_array($selectLinks)) {
                                     $download_link = $userLinks['download_link'];
-                                    $link_name = $userLinks['link_name'];
-                                    echo '<a class = "btn btn-link"
-                                            target = "_blank"
-                                            href = "'.$download_link.'"
-                                            >'
-                                        .$link_name.
-                                    '</a>';
-                                    echo '<br>';
+                                    $link_name = $userLinks['link_name']; ?>
+                                    &#10148;
+                                    <a href="<?php echo $download_link ?>"
+                                        class="btn btn-link"
+                                        target="_blank"
+                                    >
+                                        <?php echo $link_name ?>
+                                    </a>
+                                    <a href="#">&#10062;</a> <br>
+                            <?php
                                 }
                             ?>
+                            <br>
+                            <div class="btn btn-info btn-block">
+                                <i class="fas fa-plus"></i> Download Link
+                            </div>
                         </td>
                         <td>
                             <button type="button"
@@ -169,9 +175,7 @@ if (isset($_GET['logout'])) {
                             </button>
                         </td>
                         <td>
-                            <button type="button" class="btn btn-primary p-3">
-                                <i class="fas fa-edit "></i>
-                            </button>
+
                         </td>
                     </tr>
                 <?php } ?>

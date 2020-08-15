@@ -148,20 +148,20 @@ $selectLink = mysqli_query($con, "SELECT * FROM `download_links` WHERE link_for 
                 <br><br>
                 <div class="dropdown mt-5">
                     <button type="button"
-                        class="btn btn-block dropdown-toggle"
+                        class="btn btn-block dropdown-toggle btn-success"
                         data-toggle="dropdown"
                     >
                         Download <?php $selectedMovie['movie_name'] ?> Full Movie
                     </button>
                     <div class="row my-4">
                         <button type="button"
-                            class="btn btn-danger col-4"
+                            class="btn col-4 btn-secondary"
                             onclick="window.history.back()"
                         >
                             <i class="fa fa-arrow-left" aria-hidden="true"></i> Go Back
                         </button>
                         <div class="col-4"></div>
-                        <button type="button" class="btn btn-danger col-4">
+                        <button type="button" class="btn box-background col-4">
                             <i class="fab fa-youtube" aria-hidden="true"></i> Watch Trailer
                         </button>
                     </div>
