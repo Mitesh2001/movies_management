@@ -32,8 +32,11 @@ if (isset($_GET['logout'])) {
     <?php include('header.php'); ?>
     <title>It's Just Movies</title>
     <style>
-        body {margin:0;}
-
+        body {
+            margin:0;
+            background-color: #f0ede9;
+            background-image: url('images/backgrounds/pattern34.png');
+        }
         .box:hover {
             box-shadow: silver;
         }
@@ -61,19 +64,15 @@ if (isset($_GET['logout'])) {
             width: 100%;
         }
         @media only screen and (max-width: 796px) {
-           .navbar {
-                left: 0;
-                min-height: 70px;
-                position: relative;
-                z-index:1;
-                margin-bottom:0px;
-                top: 0;
-                width: 100%;
-           }
-        }
-        body {
-            background-color: #f0ede9;
-            background-image: url('images/backgrounds/pattern34.png');
+            .navbar {
+                    left: 0;
+                    min-height: 70px;
+                    position: relative;
+                    z-index:1;
+                    margin-bottom:0px;
+                    top: 0;
+                    width: 100%;
+            }
         }
     </style>
 
@@ -113,7 +112,6 @@ if (isset($_GET['logout'])) {
                             <?php echo $_SESSION['user']['full_name'] ?>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#">Profile</a>
                             <button class="dropdown-item btn" onclick="logout()">
                                      <i class="fas fa-sign-out-alt"></i> Log Out
                             </button>
@@ -152,7 +150,7 @@ if (isset($_GET['logout'])) {
             ?>
         </div>
     </div>
-    <div class="container-fluid text-center bg-dark text-light p-3 small-text">
+    <div class="container-fluid text-center bg-dark text-light p-3 small-text footer">
         <p col-12>
             Download And Watch Movies Online For Free © 2020 All Rights Reserved
         </p>

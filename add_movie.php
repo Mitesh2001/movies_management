@@ -19,6 +19,7 @@ if (!$_SESSION['user']) {
         body {
             background-color: #f0ede9;
             background-image: url('images/backgrounds/pattern34.png');
+            background-size: cover;
         }
         .box-background {
             background: rgb(2,0,36);
@@ -39,18 +40,19 @@ if (!$_SESSION['user']) {
                     id="movie-name"
                     class="form-control"
                     value="<?php  addMovieName() ?>"
+                    required
                 >
             </label>
             <label class="col-12 my-3">
                 Released Date :
-                <input type="date" name="released-date" placeholder="yyyy-mm-dd" class="form-control">
+                <input type="date" name="released-date" placeholder="yyyy-mm-dd" class="form-control" required>
             </label>
             <label class="col-12 my-3">
                 About this Movie :
-                <textarea name="description" class="form-control"></textarea>
+                <textarea name="description" class="form-control" required></textarea>
             </label>
             <div class="col-12 my-3">
-                <input type="file" class="custom-file-input" id="#poster" name="poster_image" accept="image/*">
+                <input type="file" class="custom-file-input" id="#poster" name="poster_image" required accept="image/*">
                 <label class="custom-file-label" for="poster">Poster</label>
             </div>
             <div class="col-12 text-center my-3">

@@ -108,7 +108,6 @@ $selectLink = mysqli_query($con, "SELECT * FROM `download_links` WHERE link_for 
                             <?php echo $_SESSION['user']['full_name'] ?>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#">Profile</a>
                             <button class="dropdown-item btn" onclick="logout()">
                                 <i class="fas fa-sign-out-alt"></i> Log Out
                             </button>

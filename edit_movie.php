@@ -1,12 +1,27 @@
 <?php
 session_start();
+include('connection_file.php');
 if (!$_SESSION['user']) {
     header('location:index.php');
 }
-if (isset($_POST['movie_id'])) {
+
+if (isset($_POST['edit_movie'])) {
     $movie_id = $_POST['movie_id'];
-    $selectedMovie = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM `posts` WHERE movie_id = '$movie_id'"));
+    $selectedMovie = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM `posts` WHERE post_id = '$movie_id'"));
 }
+
+if (isset($_POST['update_movie'])) {
+    $movie_id = $_POST['post_id'];
+    $movie_name = $_POST['movie-name'];
+    $released_date = $_POST['released-date'];
+    $description = $_POST['description'];
+    $update_data = mysqli_query($con, "UPDATE `posts` SET `movie_name`= '$movie_name',`description`= '$description',`released_date`= '$released_date' WHERE post_id = $movie_id");
+    if ($update_data) {
+        $_SESSION["SuccessMessage"] = "Movie Updated successfully";
+        header("location:my_movies.php");
+    }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,7 +44,8 @@ if (isset($_POST['movie_id'])) {
         <h3 class="text-center">
             Edit Post
         </h3>
-        <form action="action.php" method="post" class="col-12" enctype="multipart/form-data">
+        <form action="edit_movie.php" method="post" class="col-12" enctype="multipart/form-data">
+            <input type="hidden" name="post_id" value="<?php echo $selectedMovie['post_id'] ?>">
             <label class="col-12 my-3">
                 Movie Name :
                 <input type="text"
@@ -54,15 +70,11 @@ if (isset($_POST['movie_id'])) {
                     <?php  echo $selectedMovie['description']; ?>
                 </textarea>
             </label>
-            <!-- <div class="col-12 my-3">
-                <input type="file" class="custom-file-input" id="#poster" name="poster_image" accept="image/*">
-                <label class="custom-file-label" for="poster">Poster</label>
-            </div> -->
             <div class="col-12 text-center my-3">
                 <button type="button" class="btn btn-danger mt-3" onclick="window.location = 'my_movies.php';">
                     <i class="fas fa-arrow-left"></i> Cancel
                 </button>
-                <button type="submit" class="btn btn-primary mt-3" name="add_movie">
+                <button type="submit" class="btn btn-primary mt-3" name="update_movie">
                     Update Movie
                 </button>
             </div>

@@ -37,6 +37,10 @@ if (isset($_GET['logout'])) {
         .main-logo {
             height: 50px;
         }
+        .deleteLink {
+            text-decoration: none;
+            cursor:pointer;
+        }
         .box-background {
             background: rgb(2,0,36);
             background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(229,229,240,1) 0%);
@@ -82,7 +86,7 @@ if (isset($_GET['logout'])) {
             <div class="col-md-1"></div>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <form action="my_movies.php" class="form-inline mx-3" method="POST">
-                    <input type="text" list="movies" class="form-control mr-sm-2" placeholder="Search Movie" name="search-keyword" id="search-movie" autocomplete="off">
+                    <input type="text" list="movies" class="form-control mr-sm-2" placeholder="Search Movie" name="search-keyword" id="search-movie" autocomplete="off" required>
                     <datalist id="movies">
                         <?php
                             $selectuserMovies = mysqli_query($con, "SELECT * FROM `posts` WHERE add_by = '$userid'");
@@ -107,7 +111,6 @@ if (isset($_GET['logout'])) {
                             <?php echo $_SESSION['user']['full_name'] ?>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#">Profile</a>
                             <button class="dropdown-item btn" onclick="logout()">
                                 <i class="fas fa-sign-out-alt"></i> Log Out
                             </button>
@@ -147,9 +150,9 @@ if (isset($_GET['logout'])) {
                             <?php
                                 $post_id = $movie["post_id"];
                                 $selectLinks = mysqli_query($con, "SELECT * FROM `download_links` WHERE add_by = '$username' AND link_for = '$post_id'");
-                                while ($userLinks = mysqli_fetch_array($selectLinks)) {
-                                    $download_link = $userLinks['download_link'];
-                                    $link_name = $userLinks['link_name']; ?>
+                                while ($LinksOfUser = mysqli_fetch_array($selectLinks)) {
+                                    $download_link = $LinksOfUser['download_link'];
+                                    $link_name = $LinksOfUser['link_name']; ?>
                                     &#10148;
                                     <a href="<?php echo $download_link ?>"
                                         class="btn btn-link"
@@ -157,14 +160,38 @@ if (isset($_GET['logout'])) {
                                     >
                                         <?php echo $link_name ?>
                                     </a>
-                                    <a href="#">&#10062;</a> <br>
+                                    <a onclick="confirmDeleteLink(<?php echo $LinksOfUser['link_id'] ?>)" class="deleteLink">
+                                        &#10062;
+                                    </a>
+                                    <hr>
                             <?php
                                 }
                             ?>
                             <br>
-                            <div class="btn btn-info btn-block">
+                            <div class="btn btn-info btn-block"
+                                id="btn-<?php echo $movie['post_id'] ?>"
+                                onclick='addLinkForm(<?php echo $movie["post_id"] ?>)'
+                            >
                                 <i class="fas fa-plus"></i> Download Link
                             </div>
+                            <form action="download_links.php"
+                                method="post"
+                                class="d-none"
+                                id="form-<?php echo $movie['post_id'] ?>"
+                            >
+                                <div class="border border-dark p-3 rounded">
+                                    <a href="my_movies.php" class="float-right h3 text-danger">
+                                        <i class="fas fa-window-close"></i>
+                                    </a>
+                                    <input type="hidden" value="<?php echo $movie["post_id"] ?>" name="post_id">
+                                    <input type="text" name="down_link" placeholder="paste your link ..."        class="form-control my-3">
+                                    <input type="text" name="link_name" placeholder="Link Name"
+                                    class="form-control my-3">
+                                    <button type="submit" class="btn btn-info text-dark" name="add_link">
+                                        + Add
+                                    </button>
+                                </div>
+                            </form>
                         </td>
                         <td>
                             <button type="button"
@@ -175,7 +202,12 @@ if (isset($_GET['logout'])) {
                             </button>
                         </td>
                         <td>
-
+                            <form action="edit_movie.php" method="post">
+                                <input type="hidden" name="movie_id" value="<?php echo $movie['post_id'] ?>">
+                                <button type="submit" class="btn btn-primary p-3" name="edit_movie">
+                                    <i class="fas fa-edit "></i>
+                                </button>
+                            </form>
                         </td>
                     </tr>
                 <?php } ?>
@@ -186,14 +218,30 @@ if (isset($_GET['logout'])) {
     <?php include('footer.php') ?>
 
     <script>
-       function logout() {
-             window.location.href = "?logout";
+        function addLinkForm(formNo) {
+            var formId = "form-"+formNo ;
+            var btnId = "btn-"+formNo ;
+            var form = document.getElementById(formId).className = "d-block";
+            var btn = document.getElementById(btnId).className = "d-none" ;
+        }
+
+        function logout() {
+                window.location.href = "?logout";
         }
 
         function confirmDelete(id) {
             alertify.confirm('Confirm', "Are You Sure to Delete this Movie ?",
                 function() {
                     window.location.href = "action.php?DeleteMovieId="+id;
+                },
+                function() {}
+            );
+        }
+
+        function confirmDeleteLink(link_id) {
+            alertify.confirm('Confirm', "Are You Sure to Delete Download Link ?",
+                function() {
+                    window.location.href = "download_links.php?DeleteLinkId="+link_id;
                 },
                 function() {}
             );
