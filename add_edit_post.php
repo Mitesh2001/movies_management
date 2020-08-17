@@ -31,7 +31,7 @@ if (isset($_POST['edit_movie'])) {
         if ($file == 'add_movie.php') {
             echo '<title>New Post</title>';
         } else {
-            echo '<title>Edit in '.$selectedMovie['movie_name'].'</title>';
+            echo '<title>Edit '.$selectedMovie['movie_name'].'</title>';
         }
     ?>
     <style>
@@ -118,5 +118,10 @@ if (isset($_POST['edit_movie'])) {
     </div>
     <?php include($file) ?>
     <?php include('footer.php') ?>
+    <script>
+        function logout() {
+           window.location.href = "action.php?logout";
+        }
+    </script>
 </body>
 </html>

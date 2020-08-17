@@ -22,10 +22,7 @@ if (isset($_POST["searchResult"])) {
 } else {
     $userMovies = mysqli_query($con, "SELECT * FROM `posts` WHERE add_by = '$userid'");
 }
-if (isset($_GET['logout'])) {
-    unset($_SESSION['user']);
-    header('location:login.php');
-}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -184,7 +181,7 @@ if (isset($_GET['logout'])) {
                                         <i class="fas fa-window-close"></i>
                                     </a>
                                     <input type="hidden" value="<?php echo $movie["post_id"] ?>" name="post_id">
-                                    <input type="text" name="down_link" placeholder="paste your link ..."        class="form-control my-3">
+                                    <input type="text" name="down_link" placeholder="paste your link ..." autocomplete="off" class="form-control my-3">
                                     <input type="text" name="link_name" placeholder="Link Name"
                                     class="form-control my-3">
                                     <button type="submit" class="btn btn-info text-dark" name="add_link">
@@ -227,7 +224,7 @@ if (isset($_GET['logout'])) {
         }
 
         function logout() {
-                window.location.href = "?logout";
+                window.location.href = "action.php?logout";
         }
 
         function confirmDelete(id) {

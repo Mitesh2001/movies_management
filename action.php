@@ -56,6 +56,10 @@ if (isset($_POST['update_movie'])) {
     }
 }
 
+if (isset($_GET['logout'])) {
+    unset($_SESSION['user']);
+    header('location:login.php');
+}
 
 if (isset($_GET['DeleteMovieId'])) {
     $post_id = $_GET['DeleteMovieId'];

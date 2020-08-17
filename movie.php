@@ -203,6 +203,11 @@ $selectLink = mysqli_query($con, "SELECT * FROM `download_links` WHERE link_for 
     </div>
 
     <?php include('footer.php') ?>
+    <script>
+        function logout() {
+           window.location.href = "action.php?logout";
+        }
+    </script>
 
 </body>
 </html>

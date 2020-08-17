@@ -21,10 +21,6 @@ if (isset($_POST["searchResult"])) {
     $data = mysqli_query($con, "SELECT * FROM `posts` ");
 }
 
-if (isset($_GET['logout'])) {
-    unset($_SESSION['user']);
-    header('location:login.php');
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -164,7 +160,7 @@ if (isset($_GET['logout'])) {
 
     <script>
         function logout() {
-           window.location.href = "?logout";
+           window.location.href = "action.php?logout";
         }
         function goToMoviePage(id){
             window.location.href = "movie.php?post_id="+id;
