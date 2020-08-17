@@ -48,6 +48,7 @@ if (isset($_GET['logout'])) {
         .poster {
             height:250px;
             width:auto;
+            max-width: 250px;
             border:1px solid black;
             border-radius: 20%;
         }
@@ -103,7 +104,7 @@ if (isset($_GET['logout'])) {
                     <a href="my_movies.php" class="nav-item nav-link mx-2 active">
                         <i class="fas fa-th-list"></i> Movies
                     </a>
-                    <a href="add_movie.php" class="nav-item nav-link mx-2">
+                    <a href="add_edit_post.php" class="nav-item nav-link mx-2">
                         <i class="fas fa-plus"></i> New Post
                     </a>
                     <li class="nav-item dropdown">
@@ -149,10 +150,10 @@ if (isset($_GET['logout'])) {
                         <td>
                             <?php
                                 $post_id = $movie["post_id"];
-                                $selectLinks = mysqli_query($con, "SELECT * FROM `download_links` WHERE add_by = '$username' AND link_for = '$post_id'");
-                                while ($LinksOfUser = mysqli_fetch_array($selectLinks)) {
-                                    $download_link = $LinksOfUser['download_link'];
-                                    $link_name = $LinksOfUser['link_name']; ?>
+                        $selectLinks = mysqli_query($con, "SELECT * FROM `download_links` WHERE add_by = '$username' AND link_for = '$post_id'");
+                        while ($LinksOfUser = mysqli_fetch_array($selectLinks)) {
+                            $download_link = $LinksOfUser['download_link'];
+                            $link_name = $LinksOfUser['link_name']; ?>
                                     &#10148;
                                     <a href="<?php echo $download_link ?>"
                                         class="btn btn-link"
@@ -161,12 +162,11 @@ if (isset($_GET['logout'])) {
                                         <?php echo $link_name ?>
                                     </a>
                                     <a onclick="confirmDeleteLink(<?php echo $LinksOfUser['link_id'] ?>)" class="deleteLink">
-                                        &#10062;
+                                        <i class="fas fa-minus-circle text-success"></i>
                                     </a>
                                     <hr>
                             <?php
-                                }
-                            ?>
+                        } ?>
                             <br>
                             <div class="btn btn-info btn-block"
                                 id="btn-<?php echo $movie['post_id'] ?>"
@@ -174,7 +174,7 @@ if (isset($_GET['logout'])) {
                             >
                                 <i class="fas fa-plus"></i> Download Link
                             </div>
-                            <form action="download_links.php"
+                            <form action="action.php"
                                 method="post"
                                 class="d-none"
                                 id="form-<?php echo $movie['post_id'] ?>"
@@ -202,7 +202,7 @@ if (isset($_GET['logout'])) {
                             </button>
                         </td>
                         <td>
-                            <form action="edit_movie.php" method="post">
+                            <form action="add_edit_post.php" method="post">
                                 <input type="hidden" name="movie_id" value="<?php echo $movie['post_id'] ?>">
                                 <button type="submit" class="btn btn-primary p-3" name="edit_movie">
                                     <i class="fas fa-edit "></i>
@@ -210,7 +210,8 @@ if (isset($_GET['logout'])) {
                             </form>
                         </td>
                     </tr>
-                <?php } ?>
+                <?php
+                    } ?>
             </tbody>
         </table>
     </div>
@@ -241,7 +242,7 @@ if (isset($_GET['logout'])) {
         function confirmDeleteLink(link_id) {
             alertify.confirm('Confirm', "Are You Sure to Delete Download Link ?",
                 function() {
-                    window.location.href = "download_links.php?DeleteLinkId="+link_id;
+                    window.location.href = "action.php?DeleteLinkId="+link_id;
                 },
                 function() {}
             );

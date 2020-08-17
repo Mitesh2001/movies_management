@@ -112,7 +112,6 @@ if (isset($_REQUEST['login'])) {
             </script>';
             unset($_SESSION["successMessage"]);
         }
-
     ?>
 
 </body>

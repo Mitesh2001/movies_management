@@ -1,58 +1,51 @@
 <?php
 session_start();
-if (!$_SESSION['user']) {
-    header('location:login.php');
-}
 include('connection_file.php');
-if (isset($_POST["searchResult"])) {
-    $search = $_POST['search-keyword'];
-    $data = mysqli_query(
-        $con,
-        "select * from posts where
-        movie_name like '%$search%' OR
-        description like '%$search%' OR
-        released_date like '%$search%'"
-    );
-    if (mysqli_num_rows($data) < 1) {
-        $_SESSION['alertMessage'] = "No movies found for this keyword !";
-        $data = mysqli_query($con, "SELECT * FROM `posts` ");
-    }
-} else {
-    $data = mysqli_query($con, "SELECT * FROM `posts` ");
+if (!$_SESSION['user']) {
+    header('location:index.php');
 }
 
-if (isset($_GET['logout'])) {
-    unset($_SESSION['user']);
-    header('location:login.php');
+function addMovieName()
+{
+    if (isset($_GET['add'])) {
+        echo $_GET['add'];
+    }
 }
+
+if (isset($_POST['edit_movie'])) {
+    $file ='edit_movie.php';
+    $movie_id = $_POST['movie_id'];
+    $selectedMovie = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM `posts` WHERE post_id = '$movie_id'"));
+} else {
+    $file ='add_movie.php';
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <?php include('header.php'); ?>
-    <title>It's Just Movies</title>
+    <?php
+        if ($file == 'add_movie.php') {
+            echo '<title>New Post</title>';
+        } else {
+            echo '<title>Edit in '.$selectedMovie['movie_name'].'</title>';
+        }
+    ?>
     <style>
         body {
             margin:0;
             background-color: #f0ede9;
             background-image: url('images/backgrounds/pattern34.png');
         }
-        .box:hover {
-            box-shadow: silver;
-        }
-        .main-logo {
+         .main-logo {
             height: 50px;
-        }
-        .poster {
-            height: 250px;
-            cursor:pointer;
         }
         .box-background {
             background: rgb(2,0,36);
             background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(229,229,240,1) 0%);
-        }
-        .small-text{
-            font-size: 12px;
         }
         .navbar{
             left: 0;
@@ -68,14 +61,13 @@ if (isset($_GET['logout'])) {
                     left: 0;
                     min-height: 70px;
                     position: relative;
-                    z-index:1;
+                    z-index: 1;
                     margin-bottom:0px;
                     top: 0;
                     width: 100%;
             }
         }
     </style>
-
 </head>
 <body>
     <div class='container-fluid'>
@@ -124,74 +116,7 @@ if (isset($_GET['logout'])) {
             </button>
         </nav>
     </div>
-    <div class="container-fluid">
-        <div class="justify-content-center row my-4">
-            <?php
-                if (mysqli_num_rows($data) == 0) {
-                    echo '<p class= my-2 >No Movies Found</p>';
-                }
-                while ($selected_data = mysqli_fetch_array($data)) {
-                    ?>
-            <div class="col-lg-2 col-sm-4 col-xs-6 mx-lg-3">
-                <img src="<?php echo 'images/posts/'.$selected_data['movie_image'] ?>"
-                    class="poster col-12"
-                    onclick="goToMoviePage(<?php echo $selected_data['post_id'] ?>)"
-                >
-                <div class=" text-center col-12">
-                    <button class="btn btn-secondary my-2 btn-block rounded"
-                        onclick="goToMoviePage(<?php echo $selected_data['post_id'] ?>)"
-                    >
-                        <?php echo $selected_data['movie_name'] ?>
-                    </button>
-                </div>
-            </div>
-            <?php
-                }
-            ?>
-        </div>
-    </div>
-    <div class="container-fluid text-center bg-dark text-light p-3 small-text footer">
-        <p col-12>
-            Download And Watch Movies Online For Free © 2020 All Rights Reserved
-        </p>
-        <p col-12>
-            <Strong>Disclaimer - All My Post are Free Available On INTERNET Posted By Somebody Else<br>
-            I'm Not VIOLATING Any COPYRIGHTED LAW. If Anything Is Against LAW, Please Notify Us
-        </p>
-    </div>
-
+    <?php include($file) ?>
     <?php include('footer.php') ?>
-
-    <script>
-        function logout() {
-           window.location.href = "?logout";
-        }
-        function goToMoviePage(id){
-            window.location.href = "movie.php?post_id="+id;
-        }
-        function like(element){
-            if (element.className == "far fa-heart") {
-                element.className = "fas fa-heart";
-            } else {
-                element.className = "far fa-heart";
-            }
-        }
-    </script>
-    <?php
-        if (isset($_SESSION['alertMessage'])) {
-            $message = $_SESSION['alertMessage']; ?>
-        <script>
-            alertify.confirm("Error","<?php echo $message ?>",function () {
-                window.location = 'add_edit_post.php?add=<?php echo $search ?>';
-                },
-                function () {
-                }
-            ).set('labels', {ok:'&#10010 Add This Movie to my Movie List', cancel:'&#10008; Cancel'});
-        </script>
-        <?php
-            unset($_SESSION["alertMessage"]);
-        }
-    ?>
-
 </body>
 </html>
