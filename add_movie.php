@@ -2,7 +2,7 @@
 <h3 class="text-center">
     New Post
 </h3>
-<form action="action.php" method="post" class="col-12" enctype="multipart/form-data">
+<form action="add_edit_post.php" method="post" class="col-12" enctype="multipart/form-data">
     <label class="col-12 my-3">
         Movie Name :
         <input type="text"

@@ -20,6 +20,44 @@ if (isset($_POST['edit_movie'])) {
     $file ='add_movie.php';
 }
 
+if (isset($_POST['add_movie'])) {
+    $image = $_FILES['poster_image'];
+    $tmp_name = $image['tmp_name'];
+    $location = 'images/posts/';
+    $poster_name = $image['name'];
+    $add_by =$_SESSION['user']['user_id'];
+    $movie_name = $_POST['movie-name'];
+    $released_date = $_POST['released-date'];
+    $description = $_POST['description'];
+    $insert_data = mysqli_query($con, "INSERT INTO `posts`(`movie_name`, `description`, `movie_image`, `released_date`, `add_by`) VALUES ('$movie_name','$description','$poster_name','$released_date','$add_by')");
+    if ($movie_name == "" or $released_date == "" or $description == "" or $poster_name == "") {
+        $_SESSION["alertMessage"] = " Please fill all fields !";
+        header("location:add_edit_post.php");
+    } else {
+        if ($insert_data) {
+            $save_poster = move_uploaded_file($tmp_name, $location.$poster_name);
+            $_SESSION["SuccessMessage"] = "Movie Added successfully";
+            header("location:my_movies.php");
+        } else {
+            $_SESSION["alertMessage"] = "Error Found at adding movie";
+            header("location:add_edit_post.php");
+        }
+    }
+}
+
+if (isset($_POST['update_movie'])) {
+    $movie_id = $_POST['post_id'];
+    $movie_name = $_POST['movie-name'];
+    $released_date = $_POST['released-date'];
+    $description = $_POST['description'];
+    $update_data = mysqli_query($con, "UPDATE `posts` SET `movie_name`= '$movie_name',`description`= '$description',`released_date`= '$released_date' WHERE post_id = $movie_id");
+    if ($update_data) {
+        $_SESSION["SuccessMessage"] = "Movie Updated successfully";
+        header("location:my_movies.php");
+    }
+}
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -120,8 +158,17 @@ if (isset($_POST['edit_movie'])) {
     <?php include('footer.php') ?>
     <script>
         function logout() {
-           window.location.href = "action.php?logout";
+           window.location.href = "?logout";
         }
     </script>
+    <?php
+        if (isset($_SESSION['alertMessage'])) {
+            $message = $_SESSION['alertMessage'];
+            echo '<script type = "text/javascript">
+                            alertify.alert("'.$message.'");
+                    </script>';
+            unset($_SESSION["alertMessage"]);
+        }
+    ?>
 </body>
 </html>

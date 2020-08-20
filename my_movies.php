@@ -6,6 +6,31 @@ if (!$_SESSION['user']) {
 }
 $userid = $_SESSION['user']['user_id'];
 $username = $_SESSION['user']['username'];
+
+
+
+if (isset($_POST['add_link'])) {
+    $post_id = $_POST['post_id'];
+    $add_by = $_SESSION['user']['username'];
+    $link_name = $_POST['link_name'];
+    $download_link = $_POST['down_link'];
+    $save_link = mysqli_query($con, "INSERT INTO `download_links`(`link_for`, `add_by`, `download_link`, `link_name`) VALUES ('$post_id','$add_by','$download_link','$link_name')");
+    if ($save_link) {
+        header('location:my_movies.php');
+    }
+}
+
+if (isset($_GET['DeleteLinkId'])) {
+    $link_id = $_GET['DeleteLinkId'];
+    $selectedLink = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM `download_links` WHERE link_id = '$link_id'"));
+    if ($_SESSION['user']['username'] == $selectedLink['add_by']) {
+        $deleteLink = mysqli_query($con, "DELETE FROM `download_links` WHERE link_id = '$link_id'");
+        header('location:my_movies.php');
+    } else {
+        header('location:my_movies.php');
+    }
+}
+
 if (isset($_POST["searchResult"])) {
     $search = $_POST['search-keyword'];
     $userMovies  = mysqli_query(
@@ -21,6 +46,19 @@ if (isset($_POST["searchResult"])) {
     }
 } else {
     $userMovies = mysqli_query($con, "SELECT * FROM `posts` WHERE add_by = '$userid'");
+}
+
+if (isset($_GET['DeleteMovieId'])) {
+    $post_id = $_GET['DeleteMovieId'];
+    $poster = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM `posts` WHERE post_id = '$post_id'"))['movie_image'];
+    $poster_folder = "images/posts/";
+    $delete_poster = unlink($poster_folder.$poster);
+    $delete_down_links =mysqli_query($con, "DELETE FROM `download_links` WHERE link_for = '$post_id'");
+    $delete_post = mysqli_query($con, "DELETE FROM `posts` WHERE post_id = '$post_id'");
+    if ($delete_poster && $delete_post) {
+        $_SESSION["SuccessMessage"] = "Movie deleted successfully..";
+        header("location:my_movies.php");
+    }
 }
 
 ?>
@@ -171,7 +209,7 @@ if (isset($_POST["searchResult"])) {
                             >
                                 <i class="fas fa-plus"></i> Download Link
                             </div>
-                            <form action="action.php"
+                            <form action="my_movies.php"
                                 method="post"
                                 class="d-none"
                                 id="form-<?php echo $movie['post_id'] ?>"
@@ -224,13 +262,13 @@ if (isset($_POST["searchResult"])) {
         }
 
         function logout() {
-                window.location.href = "action.php?logout";
+                window.location.href = "?logout";
         }
 
         function confirmDelete(id) {
             alertify.confirm('Confirm', "Are You Sure to Delete this Movie ?",
                 function() {
-                    window.location.href = "action.php?DeleteMovieId="+id;
+                    window.location.href = "my_movies.php?DeleteMovieId="+id;
                 },
                 function() {}
             );
@@ -239,7 +277,7 @@ if (isset($_POST["searchResult"])) {
         function confirmDeleteLink(link_id) {
             alertify.confirm('Confirm', "Are You Sure to Delete Download Link ?",
                 function() {
-                    window.location.href = "action.php?DeleteLinkId="+link_id;
+                    window.location.href = "my_movies.php?DeleteLinkId="+link_id;
                 },
                 function() {}
             );

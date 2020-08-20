@@ -160,7 +160,7 @@ if (isset($_POST["searchResult"])) {
 
     <script>
         function logout() {
-           window.location.href = "action.php?logout";
+           window.location.href = "?logout";
         }
         function goToMoviePage(id){
             window.location.href = "movie.php?post_id="+id;

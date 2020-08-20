@@ -2,7 +2,7 @@
     <h3 class="text-center">
         Edit Post
     </h3>
-    <form action="action.php" method="post" class="col-12" enctype="multipart/form-data">
+    <form action="add_edit_post.php" method="post" class="col-12" enctype="multipart/form-data">
         <input type="hidden" name="post_id" value="<?php echo $selectedMovie['post_id'] ?>">
         <label class="col-12 my-3">
             Movie Name :
