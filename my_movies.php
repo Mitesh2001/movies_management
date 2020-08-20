@@ -114,11 +114,10 @@ if (isset($_GET['DeleteMovieId'])) {
     <div class='container-fluid'>
         <nav class="navbar box-background navbar-expand-md navbar-light border border-secondary rounded-bottom" id="myHeader">
             <div class="col-md-1"></div>
-            <a href="#" class="navbar-brand">
+            <a href="index.php" class="navbar-brand">
                 <img src="images/backgrounds/main_logo.png" alt="It’s Just Movies" class="main-logo">
             </a>
             <div class="col-md-1"></div>
-            <a href="index.php" class="nav-item nav-link btn btn-circle">Home</a>
             <div class="col-md-1"></div>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <form action="my_movies.php" class="form-inline mx-3" method="POST">

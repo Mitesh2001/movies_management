@@ -5,19 +5,25 @@ if (!$_SESSION['user']) {
     header('location:index.php');
 }
 
+if (isset($_POST['edit_movie'])) {
+    $movie_id = $_POST['movie_id'];
+    $selectedMovie = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM `posts` WHERE post_id = '$movie_id'"));
+}
+
 function addMovieName()
 {
     if (isset($_GET['add'])) {
-        echo $_GET['add'];
+        echo 'value = "'.$_GET['add'].'"';
     }
 }
 
-if (isset($_POST['edit_movie'])) {
-    $file ='edit_movie.php';
-    $movie_id = $_POST['movie_id'];
-    $selectedMovie = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM `posts` WHERE post_id = '$movie_id'"));
-} else {
-    $file ='add_movie.php';
+function editMovieData($data)
+{
+    global $con;
+    global $selectedMovie ;
+    if (isset($_POST['edit_movie'])) {
+        echo  $selectedMovie[$data] ;
+    }
 }
 
 if (isset($_POST['add_movie'])) {
@@ -65,13 +71,6 @@ if (isset($_POST['update_movie'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <?php include('header.php'); ?>
-    <?php
-        if ($file == 'add_movie.php') {
-            echo '<title>New Post</title>';
-        } else {
-            echo '<title>Edit '.$selectedMovie['movie_name'].'</title>';
-        }
-    ?>
     <style>
         body {
             margin:0;
@@ -111,11 +110,10 @@ if (isset($_POST['update_movie'])) {
     <div class='container-fluid'>
         <nav class="navbar box-background navbar-expand-md navbar-light bg-light text-light border border-secondary rounded-bottom" id="myHeader">
             <div class="col-md-1"></div>
-            <a href="#" class="navbar-brand">
+            <a href="index.php" class="navbar-brand">
                 <img src="images/backgrounds/main_logo.png" alt="It’s Just Movies" class="main-logo">
             </a>
             <div class="col-md-1"></div>
-            <a href="index.php" class="nav-item nav-link active btn btn-circle">Home</a>
             <div class="col-md-1"></div>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <form action="index.php" class="form-inline mx-3" method="post">
@@ -154,7 +152,52 @@ if (isset($_POST['update_movie'])) {
             </button>
         </nav>
     </div>
-    <?php include($file) ?>
+    <div id="add-movie-box" class="box-background border border-dark rounded col-lg-6 container p-4 my-4">
+        <h3 class="text-center">
+            New Post
+        </h3>
+        <form action="add_edit_post.php" method="post" class="col-12" enctype="multipart/form-data">
+            <input type="hidden" name="post_id" value="<?php editMovieData('post_id') ?>">
+            <label class="col-12 my-3">
+                Movie Name :
+                <input type="text"
+                    name="movie-name"
+                    id="movie-name"
+                    class="form-control"
+                    <?php  addMovieName(); ?>
+                    value="<?php editMovieData('movie_name') ?>"
+                    required
+                >
+            </label>
+            <label class="col-12 my-3">
+                Released Date :
+                <input type="date" name="released-date" placeholder="yyyy-mm-dd" class="form-control" value="<?php editMovieData('released_date') ?>" required>
+            </label>
+            <label class="col-12 my-3">
+                About this Movie :
+                <textarea name="description" class="form-control" required >
+                    <?php  editMovieData('description'); ?>
+                </textarea>
+            </label>
+            <?php if (!isset($_POST['edit_movie'])) { ?>
+            <div class="col-12 my-3">
+                <input type="file" class="custom-file-input" id="#poster" name="poster_image" required accept="image/*">
+                <label class="custom-file-label" for="poster">Poster</label>
+            </div>
+            <?php } ?>
+            <div class="col-12 text-center my-3">
+                <button type="button" class="btn btn-danger mt-3" onclick="window.location = 'my_movies.php';">
+                    <i class="fas fa-arrow-left"></i> Cancel
+                </button>
+                <button type="submit"
+                    class="btn btn-primary mt-3"
+                    name="<?php echo isset($_POST['edit_movie']) ? 'update_movie' : 'add_movie';  ?>"
+                >
+                    <?php echo isset($_POST['edit_movie']) ? 'Update Movie' : 'Add Movie';  ?>
+                </button>
+            </div>
+        </form>
+    </div>
     <?php include('footer.php') ?>
     <script>
         function logout() {
